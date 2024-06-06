@@ -51,24 +51,6 @@ $banner-icon-close: (
   .usa-accordion {
     @include typeset($theme-banner-font-family);
   }
-
-  // ! Stylelint will complain about BEM formatting.
-  // Added grid classes in #5000 to remove layout grid dependency.
-  // stylelint-disable selector-class-pattern
-  .grid-row {
-    @include grid-row;
-
-    &.grid-gap-lg {
-      @include grid-gap("lg");
-    }
-
-    .tablet\:grid-col-6 {
-      @include at-media("tablet") {
-        @include grid-col(6);
-      }
-    }
-  }
-  // stylelint-enable
 }
 
 .usa-banner__header,
@@ -86,7 +68,7 @@ $banner-icon-close: (
   font-size: font-size($theme-banner-font-family, 4);
   overflow: hidden;
   padding-bottom: units(2);
-  padding-left: units($theme-site-margins-mobile-width) - units(1);
+  padding-left: units($theme-site-margins-mobile-width - 1);
   padding-top: units(0.5);
   width: 100%;
 
@@ -202,7 +184,7 @@ $banner-icon-close: (
 }
 
 .usa-banner__header--expanded {
-  padding-right: units($size-touch-target) + units(1);
+  padding-right: units($size-touch-target + 1);
 
   @include at-media("tablet") {
     background-color: transparent;
@@ -230,7 +212,7 @@ $banner-icon-close: (
   @include button-unstyled;
   @include u-pin("left");
   @include u-pin("y");
-  @include u-text("primary", underline);
+  @include u-text("primary", underline, baseline);
   @include set-link-from-bg(
     $theme-banner-background-color,
     $theme-banner-link-color,
@@ -247,11 +229,6 @@ $banner-icon-close: (
 
   @include at-media-max("tablet") {
     width: 100%;
-
-    &:enabled:focus {
-      // adjust outline to render within the viewport
-      outline-offset: units(-0.5);
-    }
   }
 
   @include at-media("tablet") {
@@ -281,22 +258,13 @@ $banner-icon-close: (
     }
   }
 
-  // Remove icon set from usa-accordion.
-  // Also removed in _usa-nav.scss.
-  &[aria-expanded="false"],
-  &[aria-expanded="false"]:hover,
-  &[aria-expanded="true"],
-  &[aria-expanded="true"]:hover {
+  &[aria-expanded="false"] {
     background-image: none;
-
-    @media (forced-colors: active) {
-      &::before {
-        content: none;
-      }
-    }
   }
 
   &[aria-expanded="true"] {
+    background-image: none;
+
     @include at-media-max("tablet") {
       @include place-icon(
         $banner-icon-close,

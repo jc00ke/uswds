@@ -3,7 +3,6 @@
 
 @use "../../functions" as *;
 @use "../../settings" as *;
-@use "../../variables/border-high-contrast" as *;
 @use "../general/add-background-svg" as *;
 @use "format-input" as *;
 @use "format-label" as *;
@@ -16,40 +15,12 @@
   @include -checkbox-and-radio-colors($input-type: "radio", $args...);
 }
 
-// Applies active state colors to tile variant backgrounds and borders.
-// Used by :checked checkbox and radio labels as well as :indeterminate checkboxes.
-//
-// @parameter $input-active-color - active input color determined by -checkbox-and-radio-colors mixin.
-@mixin active-tile-colors($input-active-color) {
-  background-color: color.adjust(color($input-active-color), $alpha: -0.9);
-  border-color: color($input-active-color);
-
-  @media (forced-colors: active) {
-    border: ButtonText solid units("05");
-  }
-}
-
-// Applies active state colors to input backgrounds and borders.
-// Used by :checked checkbox and radio inputs as well as :indeterminate checkboxes.
-//
-// @parameter $input-active-color - active input color determined by -checkbox-and-radio-colors mixin.
-@mixin active-input-colors($input-active-color) {
-  background-color: color($input-active-color);
-  box-shadow: 0 0 0 units($theme-input-select-border-width)
-    color($input-active-color);
-}
-
 @mixin -checkbox-and-radio-colors(
   $bg-color: $theme-input-background-color,
   $selected-color: "default",
   $input-type: null
 ) {
   $input-text-color: get-color-token-from-bg($bg-color);
-  $input-text-color-disabled: get-color-token-from-bg(
-    $bg-color,
-    "disabled",
-    "gray-50"
-  );
   $input-bg-color: if(
     $bg-color == "default",
     $theme-body-background-color,
@@ -59,22 +30,28 @@
     get-link-tokens-from-bg($bg-color, $preferred-link-token: $selected-color),
     1
   );
+  $input-disabled-alpha: -0.7;
+  $input-disabled-alpha--strong: -0.5;
+  $input-disabled-alpha--weak: -0.8;
   $input-border-alpha: -0;
-  $tile-border-color: color("gray-20");
-  $tile-border-color--disabled: color("gray-10");
-  $tile-box-shadow--disabled: 0 0 0 units($theme-input-select-border-width)
-    color($input-text-color-disabled);
+  $color-input-disabled: color.adjust(
+    color($input-text-color),
+    $alpha: $input-disabled-alpha
+  );
+  $color-input-disabled--strong: color.adjust(
+    color($input-text-color),
+    $alpha: $input-disabled-alpha--strong
+  );
+  $color-input-disabled--weak: color.adjust(
+    color($input-text-color),
+    $alpha: $input-disabled-alpha--weak
+  );
   $input-darkmode: if(
     color.lightness(color($input-bg-color)) < 50%,
     true,
     false
   );
   $input-checkmark: if($input-darkmode, "correct8-alt", "correct8");
-  $input-indeterminate: if(
-    $input-darkmode,
-    "checkbox-indeterminate-alt",
-    "checkbox-indeterminate"
-  );
 
   .usa-#{$input-type} {
     background: color($input-bg-color);
@@ -89,7 +66,7 @@
         color.adjust(color($input-text-color), $alpha: $input-border-alpha);
 
       @media (forced-colors: active) {
-        outline: $border-high-contrast;
+        outline: 2px solid transparent;
         outline-offset: 2px;
       }
     }
@@ -97,14 +74,15 @@
   .usa-#{$input-type}__input {
     &:checked {
       @include format-input {
-        @include active-input-colors($input-active-color);
+        background-color: color($input-active-color);
+        box-shadow: 0 0 0 units($theme-input-select-border-width)
+          color($input-active-color);
       }
     }
     &:disabled,
     &[aria-disabled="true"] {
       @include format-label {
-        color: color($input-text-color-disabled);
-        cursor: not-allowed;
+        color: $color-input-disabled;
 
         @media (forced-colors: active) {
           color: GrayText;
@@ -112,32 +90,35 @@
       }
       @include format-input {
         background-color: color($input-bg-color);
-        box-shadow: $tile-box-shadow--disabled;
+        box-shadow: 0 0 0 units($theme-input-select-border-width)
+          $color-input-disabled;
       }
     }
     &--tile {
       @include format-label {
         background-color: color($input-bg-color);
-        border: units($theme-input-tile-border-width) solid $tile-border-color;
+        border: units($theme-input-tile-border-width) solid
+          $color-input-disabled;
         color: color($input-text-color);
       }
       &:checked {
         @include format-label {
-          @include active-tile-colors($input-active-color);
+          background-color: color.adjust(
+            color($input-active-color),
+            $alpha: -0.9
+          );
+          border-color: color($input-active-color);
+
+          @media (forced-colors: active) {
+            border: ButtonText solid units("05");
+          }
         }
       }
-      &:disabled,
-      &[aria-disabled="true"] {
+      &:disabled:checked,
+      &[aria-disabled="true"]:checked {
         @include format-label {
-          border-color: $tile-border-color--disabled;
-        }
-
-        &:checked,
-        &:indeterminate,
-        &[data-indeterminate] {
-          @include format-label {
-            background-color: color($input-bg-color);
-          }
+          background-color: color($input-bg-color);
+          border-color: $color-input-disabled;
         }
       }
     }
@@ -145,41 +126,6 @@
 
   @if $input-type == "checkbox" {
     .usa-checkbox__input {
-      // Adding indeterminate styles here avoids style conflicts from setting in .usa-#{$input-type}__input due to
-      // radio buttons receiving :indeterminate state when none are selected.
-      &:indeterminate,
-      &[data-indeterminate] {
-        @include format-input {
-          @include add-background-svg($input-indeterminate);
-          @include active-input-colors($input-active-color);
-          background-position: center center;
-          background-size: units(1.5) auto;
-
-          @media (forced-colors: active) {
-            @include add-background-svg("checkbox-indeterminate-alt");
-            background-color: color(SelectedItem);
-          }
-        }
-
-        &:disabled,
-        &[aria-disabled="true"] {
-          @include format-input {
-            box-shadow: $tile-box-shadow--disabled;
-          }
-
-          @include format-label {
-            border-color: $tile-border-color--disabled;
-          }
-        }
-      }
-      &--tile {
-        &:indeterminate,
-        &[data-indeterminate] {
-          @include format-label {
-            @include active-tile-colors($input-active-color);
-          }
-        }
-      }
       &:checked,
       &:checked:disabled,
       &:checked[aria-disabled="true"] {
@@ -194,16 +140,9 @@
         }
       }
       &:checked:disabled,
-      &:checked[aria-disabled="true"],
-      &:indeterminate:disabled,
-      &:indeterminate[aria-disabled="true"],
-      &[data-indeterminate]:disabled,
-      &[data-indeterminate][aria-disabled="true"] {
+      &:checked[aria-disabled="true"] {
         @include format-input {
-          background-color: color($input-text-color-disabled);
-          @media (forced-colors: active) {
-            background-color: color(GrayText);
-          }
+          background-color: $color-input-disabled;
         }
       }
     }
@@ -213,8 +152,7 @@
     .usa-radio__input {
       &:checked {
         @include format-input {
-          box-shadow:
-            0 0 0 units($theme-input-select-border-width)
+          box-shadow: 0 0 0 units($theme-input-select-border-width)
               color($input-active-color),
             inset 0 0 0 units($theme-input-select-border-width)
               color($input-bg-color);
@@ -227,14 +165,9 @@
       &:checked:disabled,
       &:checked[aria-disabled="true"] {
         @include format-input {
-          background-color: color($input-text-color-disabled);
-          box-shadow:
-            0 0 0 2px color($input-text-color-disabled),
+          background-color: $color-input-disabled--weak;
+          box-shadow: 0 0 0 2px $color-input-disabled,
             inset 0 0 0 2px color($input-bg-color);
-
-          @media (forced-colors: active) {
-            background-color: color(GrayText);
-          }
         }
       }
     }

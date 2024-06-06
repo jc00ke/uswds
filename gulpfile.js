@@ -60,7 +60,6 @@ exports.test = series(
  */
 exports.buildSpriteStandalone = buildSpriteStandalone;
 exports.buildSprite = buildSprite;
-exports.compileSass = compileSass;
 exports.buildSass = series(lintSass, compileSass);
 exports.buildJS = series(typeCheck, compileJS);
 exports.buildUSWDS = build;

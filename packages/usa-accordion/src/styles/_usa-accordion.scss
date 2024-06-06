@@ -1,39 +1,8 @@
-@use "sass:map";
 @use "uswds-core" as *;
 
 // Variables
-$accordion-context: "Accordion";
-
 $accordion-border: units($theme-accordion-border-width) solid
   color($theme-accordion-border-color);
-
-$accordion-button-background-active-color: next-token(
-  $theme-accordion-button-background-color,
-  "darker"
-);
-
-// Maps for High Contrast Mode
-
-$accordion-icon-map-defaults: (
-  color: color("ButtonText"),
-  svg-height: 20,
-  svg-width: 20,
-  height: units(3),
-);
-
-$accordion-button-unopen-hc-icon: map-merge(
-  $accordion-icon-map-defaults,
-  (
-    "name": "add",
-  )
-);
-
-$accordion-button-open-hc-icon: map-merge(
-  $accordion-icon-map-defaults,
-  (
-    "name": "remove",
-  )
-);
 
 // Accordion Styles
 @mixin accordion-list-styles {
@@ -44,27 +13,14 @@ $accordion-button-open-hc-icon: map-merge(
   width: 100%;
 }
 
-@mixin accordion-hc-icon-styles {
-  height: 100%;
-  position: absolute;
-  right: units(2.5);
-  top: 0;
-}
-
-// Opened styles
+// scss-lint:disable PropertyCount
 @mixin accordion-button-styles {
   @include button-unstyled;
-  @include set-text-and-bg(
-    $theme-accordion-button-background-color,
-    $context: $accordion-context
-  );
-  @include set-icon-from-bg(
-    $theme-accordion-button-background-color,
-    "usa-icons/remove",
-    "usa-icons-bg/remove--white"
-  );
+  @include add-background-svg("usa-icons/remove");
+  background-color: color("base-lightest");
   background-position: right units(2.5) center;
   background-size: units(3);
+  color: color("ink");
   cursor: pointer;
   display: inline-block;
   font-weight: font-weight("bold");
@@ -74,52 +30,20 @@ $accordion-button-open-hc-icon: map-merge(
   width: 100%;
 
   &:hover {
-    @include set-text-and-bg(
-      $accordion-button-background-active-color,
-      $context: $accordion-context
-    );
-    @include set-icon-from-bg(
-      $accordion-button-background-active-color,
-      "usa-icons/remove",
-      "usa-icons-bg/remove--white"
-    );
+    background-color: color("base-lighter");
+    color: color("ink");
     text-decoration: none;
   }
 
   @media (forced-colors: active) {
-    border: $border-high-contrast;
-    position: relative;
-
-    &::before {
-      @include add-color-icon($accordion-button-open-hc-icon);
-      @include accordion-hc-icon-styles();
-      content: "";
-    }
+    forced-color-adjust: none;
   }
 }
+// scss-lint:enable PropertyCount
 
 @mixin accordion-button-unopened-styles {
-  @include set-icon-from-bg(
-    $theme-accordion-button-background-color,
-    "usa-icons/add",
-    "usa-icons-bg/add--white"
-  );
+  @include add-background-svg("usa-icons/add");
   background-size: units(3);
-
-  &:hover {
-    @include set-icon-from-bg(
-      $accordion-button-background-active-color,
-      "usa-icons/add",
-      "usa-icons-bg/add--white"
-    );
-  }
-
-  @media (forced-colors: active) {
-    &::before {
-      @include add-color-icon($accordion-button-unopen-hc-icon);
-      @include accordion-hc-icon-styles();
-    }
-  }
 }
 
 @mixin accordion-nested-list {
@@ -172,10 +96,7 @@ $accordion-button-open-hc-icon: map-merge(
 }
 
 .usa-accordion__content {
-  @include set-text-and-bg(
-    $theme-accordion-background-color,
-    $context: $accordion-context
-  );
+  background-color: color("white");
   margin-top: 0;
   overflow: auto;
   padding: units(2) units(2.5) calc(#{units(2)} - #{units(0.5)}) units(2.5);

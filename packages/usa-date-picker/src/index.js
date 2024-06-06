@@ -1,12 +1,13 @@
-const keymap = require("receptor/keymap");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const select = require("../../uswds-core/src/js/utils/select");
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
-const { CLICK } = require("../../uswds-core/src/js/events");
-const activeElement = require("../../uswds-core/src/js/utils/active-element");
-const isIosDevice = require("../../uswds-core/src/js/utils/is-ios-device");
-const Sanitizer = require("../../uswds-core/src/js/utils/sanitizer");
+import { keymap } from "receptor";
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import select  from "../../uswds-core/src/js/utils/select";
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
+import { CLICK } from "../../uswds-core/src/js/events";
+import activeElement from "../../uswds-core/src/js/utils/active-element";
+import isIosDevice from "../../uswds-core/src/js/utils/is-ios-device";
+import { Sanitizer } from "../../uswds-core/src/js/utils/sanitizer";
+
 
 const DATE_PICKER_CLASS = `${PREFIX}-date-picker`;
 const DATE_PICKER_WRAPPER_CLASS = `${DATE_PICKER_CLASS}__wrapper`;
@@ -125,17 +126,17 @@ const DATE_PICKER_FOCUSABLE = processFocusableSelectors(
   CALENDAR_MONTH_SELECTION,
   CALENDAR_NEXT_YEAR,
   CALENDAR_NEXT_MONTH,
-  CALENDAR_DATE_FOCUSED,
+  CALENDAR_DATE_FOCUSED
 );
 
 const MONTH_PICKER_FOCUSABLE = processFocusableSelectors(
-  CALENDAR_MONTH_FOCUSED,
+  CALENDAR_MONTH_FOCUSED
 );
 
 const YEAR_PICKER_FOCUSABLE = processFocusableSelectors(
   CALENDAR_PREVIOUS_YEAR_CHUNK,
   CALENDAR_NEXT_YEAR_CHUNK,
-  CALENDAR_YEAR_FOCUSED,
+  CALENDAR_YEAR_FOCUSED
 );
 
 // #region Date Manipulation Functions
@@ -475,7 +476,7 @@ const isDatesYearOutsideMinOrMax = (date, minDate, maxDate) =>
 const parseDateString = (
   dateString,
   dateFormat = INTERNAL_DATE_FORMAT,
-  adjustDate = false,
+  adjustDate = false
 ) => {
   let date;
   let month;
@@ -656,10 +657,10 @@ const getDatePickerContext = (el) => {
   }
 
   const internalInputEl = datePickerEl.querySelector(
-    DATE_PICKER_INTERNAL_INPUT,
+    DATE_PICKER_INTERNAL_INPUT
   );
   const externalInputEl = datePickerEl.querySelector(
-    DATE_PICKER_EXTERNAL_INPUT,
+    DATE_PICKER_EXTERNAL_INPUT
   );
   const calendarEl = datePickerEl.querySelector(DATE_PICKER_CALENDAR);
   const toggleBtnEl = datePickerEl.querySelector(DATE_PICKER_BUTTON);
@@ -669,7 +670,7 @@ const getDatePickerContext = (el) => {
   const inputDate = parseDateString(
     externalInputEl.value,
     DEFAULT_EXTERNAL_DATE_FORMAT,
-    true,
+    true
   );
   const selectedDate = parseDateString(internalInputEl.value);
 
@@ -711,18 +712,6 @@ const disable = (el) => {
 
   toggleBtnEl.disabled = true;
   externalInputEl.disabled = true;
-};
-
-/**
- * Check for aria-disabled on initialization
- *
- * @param {HTMLElement} el An element within the date picker component
- */
-const ariaDisable = (el) => {
-  const { externalInputEl, toggleBtnEl } = getDatePickerContext(el);
-
-  toggleBtnEl.setAttribute("aria-disabled", true);
-  externalInputEl.setAttribute("aria-disabled", true);
 };
 
 /**
@@ -859,14 +848,14 @@ const enhanceDatePicker = (el) => {
   }
 
   const minDate = parseDateString(
-    datePickerEl.dataset.minDate || internalInputEl.getAttribute("min"),
+    datePickerEl.dataset.minDate || internalInputEl.getAttribute("min")
   );
   datePickerEl.dataset.minDate = minDate
     ? formatDate(minDate)
     : DEFAULT_MIN_DATE;
 
   const maxDate = parseDateString(
-    datePickerEl.dataset.maxDate || internalInputEl.getAttribute("max"),
+    datePickerEl.dataset.maxDate || internalInputEl.getAttribute("max")
   );
   if (maxDate) {
     datePickerEl.dataset.maxDate = formatDate(maxDate);
@@ -884,8 +873,8 @@ const enhanceDatePicker = (el) => {
     "beforeend",
     Sanitizer.escapeHTML`
     <button type="button" class="${DATE_PICKER_BUTTON_CLASS}" aria-haspopup="true" aria-label="Toggle calendar"></button>
-    <div class="${DATE_PICKER_CALENDAR_CLASS}" role="application" hidden></div>
-    <div class="usa-sr-only ${DATE_PICKER_STATUS_CLASS}" role="status" aria-live="polite"></div>`,
+    <div class="${DATE_PICKER_CALENDAR_CLASS}" role="dialog" aria-modal="true" hidden></div>
+    <div class="usa-sr-only ${DATE_PICKER_STATUS_CLASS}" role="status" aria-live="polite"></div>`
   );
 
   internalInputEl.setAttribute("aria-hidden", "true");
@@ -906,11 +895,6 @@ const enhanceDatePicker = (el) => {
   if (internalInputEl.disabled) {
     disable(datePickerEl);
     internalInputEl.disabled = false;
-  }
-
-  if (internalInputEl.hasAttribute("aria-disabled")) {
-    ariaDisable(datePickerEl);
-    internalInputEl.removeAttribute("aria-disabled");
   }
 };
 
@@ -1011,7 +995,7 @@ const renderCalendar = (el, _dateToDisplay) => {
         isDateWithinMinAndMax(
           dateToRender,
           withinRangeStartDate,
-          withinRangeEndDate,
+          withinRangeEndDate
         )
       ) {
         classes.push(CALENDAR_DATE_WITHIN_RANGE_CLASS);
@@ -1036,7 +1020,7 @@ const renderCalendar = (el, _dateToDisplay) => {
     btn.setAttribute("data-value", formattedDate);
     btn.setAttribute(
       "aria-label",
-      Sanitizer.escapeHTML`${day} ${monthStr} ${year} ${dayStr}`,
+      Sanitizer.escapeHTML`${day} ${monthStr} ${year} ${dayStr}`
     );
     btn.setAttribute("aria-selected", isSelected ? "true" : "false");
     if (isDisabled === true) {
@@ -1089,11 +1073,11 @@ const renderCalendar = (el, _dateToDisplay) => {
         <div class="${CALENDAR_CELL_CLASS} ${CALENDAR_MONTH_LABEL_CLASS}">
           <button
             type="button"
-            class="${CALENDAR_MONTH_SELECTION_CLASS}" aria-label="${monthLabel}. Select month"
+            class="${CALENDAR_MONTH_SELECTION_CLASS}" aria-label="${monthLabel}. Click to select month"
           >${monthLabel}</button>
           <button
             type="button"
-            class="${CALENDAR_YEAR_SELECTION_CLASS}" aria-label="${focusedYear}. Select year"
+            class="${CALENDAR_YEAR_SELECTION_CLASS}" aria-label="${focusedYear}. Click to select year"
           >${focusedYear}</button>
         </div>
         <div class="${CALENDAR_CELL_CLASS} ${CALENDAR_CELL_CENTER_ITEMS_CLASS}">
@@ -1118,6 +1102,7 @@ const renderCalendar = (el, _dateToDisplay) => {
 
   const table = document.createElement("table");
   table.setAttribute("class", CALENDAR_TABLE_CLASS);
+  table.setAttribute("role", "presentation");
 
   const tableHead = document.createElement("thead");
   table.insertAdjacentElement("beforeend", tableHead);
@@ -1137,7 +1122,7 @@ const renderCalendar = (el, _dateToDisplay) => {
   Object.keys(daysOfWeek).forEach((key) => {
     const th = document.createElement("th");
     th.setAttribute("class", CALENDAR_DAY_OF_WEEK_CLASS);
-    th.setAttribute("scope", "col");
+    th.setAttribute("scope", "presentation");
     th.setAttribute("aria-label", key);
     th.textContent = daysOfWeek[key];
     tableHeadRow.insertAdjacentElement("beforeend", th);
@@ -1168,7 +1153,7 @@ const renderCalendar = (el, _dateToDisplay) => {
       "Weeks by using up and down arrows",
       "Months by using page up and page down keys",
       "Years by using shift plus page up and shift plus page down",
-      "Home and end keys navigate to the beginning and end of a week",
+      "Home and end keys navigate to the beginning and end of a week"
     );
     statusEl.textContent = "";
   } else {
@@ -1303,7 +1288,7 @@ const toggleCalendar = (el) => {
     const dateToDisplay = keepDateBetweenMinAndMax(
       inputDate || defaultDate || today(),
       minDate,
-      maxDate,
+      maxDate
     );
     const newCalendar = renderCalendar(calendarEl, dateToDisplay);
     newCalendar.querySelector(CALENDAR_DATE_FOCUSED).focus();
@@ -1349,7 +1334,7 @@ const displayMonthSelection = (el, monthToDisplay) => {
     const isDisabled = isDatesMonthOutsideMinOrMax(
       monthToCheck,
       minDate,
-      maxDate,
+      maxDate
     );
 
     let tabindex = "-1";
@@ -1444,13 +1429,13 @@ const displayYearSelection = (el, yearToDisplay) => {
   const prevYearChunkDisabled = isDatesYearOutsideMinOrMax(
     setYear(calendarDate, yearToChunk - 1),
     minDate,
-    maxDate,
+    maxDate
   );
 
   const nextYearChunkDisabled = isDatesYearOutsideMinOrMax(
     setYear(calendarDate, yearToChunk + YEAR_CHUNK),
     minDate,
-    maxDate,
+    maxDate
   );
 
   const years = [];
@@ -1459,7 +1444,7 @@ const displayYearSelection = (el, yearToDisplay) => {
     const isDisabled = isDatesYearOutsideMinOrMax(
       setYear(calendarDate, yearIndex),
       minDate,
-      maxDate,
+      maxDate
     );
 
     let tabindex = "-1";
@@ -1500,6 +1485,7 @@ const displayYearSelection = (el, yearToDisplay) => {
 
   // create table parent
   const yearsTableParent = document.createElement("table");
+  yearsTableParent.setAttribute("role", "presentation");
   yearsTableParent.setAttribute("class", CALENDAR_TABLE_CLASS);
 
   // create table body and table row
@@ -1512,7 +1498,7 @@ const displayYearSelection = (el, yearToDisplay) => {
   previousYearsBtn.setAttribute("class", CALENDAR_PREVIOUS_YEAR_CHUNK_CLASS);
   previousYearsBtn.setAttribute(
     "aria-label",
-    `Navigate back ${YEAR_CHUNK} years`,
+    `Navigate back ${YEAR_CHUNK} years`
   );
   if (prevYearChunkDisabled === true) {
     previousYearsBtn.disabled = true;
@@ -1525,7 +1511,7 @@ const displayYearSelection = (el, yearToDisplay) => {
   nextYearsBtn.setAttribute("class", CALENDAR_NEXT_YEAR_CHUNK_CLASS);
   nextYearsBtn.setAttribute(
     "aria-label",
-    `Navigate forward ${YEAR_CHUNK} years`,
+    `Navigate forward ${YEAR_CHUNK} years`
   );
   if (nextYearChunkDisabled === true) {
     nextYearsBtn.disabled = true;
@@ -1548,7 +1534,7 @@ const displayYearSelection = (el, yearToDisplay) => {
   const yearsHTMLTableBodyDetailPrev = document.createElement("td");
   yearsHTMLTableBodyDetailPrev.insertAdjacentElement(
     "beforeend",
-    previousYearsBtn,
+    previousYearsBtn
   );
 
   // create the years td and append the years child table
@@ -1563,15 +1549,15 @@ const displayYearSelection = (el, yearToDisplay) => {
   // append the three td to the years child table row
   yearsHTMLTableBodyRow.insertAdjacentElement(
     "beforeend",
-    yearsHTMLTableBodyDetailPrev,
+    yearsHTMLTableBodyDetailPrev
   );
   yearsHTMLTableBodyRow.insertAdjacentElement(
     "beforeend",
-    yearsHTMLTableBodyYearsDetail,
+    yearsHTMLTableBodyYearsDetail
   );
   yearsHTMLTableBodyRow.insertAdjacentElement(
     "beforeend",
-    yearsHTMLTableBodyDetailNext,
+    yearsHTMLTableBodyDetailNext
   );
 
   // append the table row to the years child table body
@@ -1616,7 +1602,7 @@ const displayPreviousYearChunk = (el) => {
   const cappedDate = keepDateBetweenMinAndMax(date, minDate, maxDate);
   const newCalendar = displayYearSelection(
     calendarEl,
-    cappedDate.getFullYear(),
+    cappedDate.getFullYear()
   );
 
   let nextToFocus = newCalendar.querySelector(CALENDAR_PREVIOUS_YEAR_CHUNK);
@@ -1646,7 +1632,7 @@ const displayNextYearChunk = (el) => {
   const cappedDate = keepDateBetweenMinAndMax(date, minDate, maxDate);
   const newCalendar = displayYearSelection(
     calendarEl,
-    cappedDate.getFullYear(),
+    cappedDate.getFullYear()
   );
 
   let nextToFocus = newCalendar.querySelector(CALENDAR_NEXT_YEAR_CHUNK);
@@ -1701,7 +1687,7 @@ const handleEscapeFromCalendar = (event) => {
  */
 const adjustCalendar = (adjustDateFn) => (event) => {
   const { calendarEl, calendarDate, minDate, maxDate } = getDatePickerContext(
-    event.target,
+    event.target
   );
 
   const date = adjustDateFn(calendarDate);
@@ -1829,7 +1815,7 @@ const adjustMonthSelectionScreen = (adjustMonthFn) => (event) => {
   if (!isSameMonth(currentDate, cappedDate)) {
     const newCalendar = displayMonthSelection(
       calendarEl,
-      cappedDate.getMonth(),
+      cappedDate.getMonth()
     );
     newCalendar.querySelector(CALENDAR_MONTH_FOCUSED).focus();
   }
@@ -1870,7 +1856,7 @@ const handleRightFromMonth = adjustMonthSelectionScreen((month) => month + 1);
  * @param {KeyboardEvent} event the keydown event
  */
 const handleHomeFromMonth = adjustMonthSelectionScreen(
-  (month) => month - (month % 3),
+  (month) => month - (month % 3)
 );
 
 /**
@@ -1879,7 +1865,7 @@ const handleHomeFromMonth = adjustMonthSelectionScreen(
  * @param {KeyboardEvent} event the keydown event
  */
 const handleEndFromMonth = adjustMonthSelectionScreen(
-  (month) => month + 2 - (month % 3),
+  (month) => month + 2 - (month % 3)
 );
 
 /**
@@ -1936,7 +1922,7 @@ const adjustYearSelectionScreen = (adjustYearFn) => (event) => {
   if (!isSameYear(currentDate, cappedDate)) {
     const newCalendar = displayYearSelection(
       calendarEl,
-      cappedDate.getFullYear(),
+      cappedDate.getFullYear()
     );
     newCalendar.querySelector(CALENDAR_YEAR_FOCUSED).focus();
   }
@@ -1977,7 +1963,7 @@ const handleRightFromYear = adjustYearSelectionScreen((year) => year + 1);
  * @param {KeyboardEvent} event the keydown event
  */
 const handleHomeFromYear = adjustYearSelectionScreen(
-  (year) => year - (year % 3),
+  (year) => year - (year % 3)
 );
 
 /**
@@ -1986,7 +1972,7 @@ const handleHomeFromYear = adjustYearSelectionScreen(
  * @param {KeyboardEvent} event the keydown event
  */
 const handleEndFromYear = adjustYearSelectionScreen(
-  (year) => year + 2 - (year % 3),
+  (year) => year + 2 - (year % 3)
 );
 
 /**
@@ -1995,7 +1981,7 @@ const handleEndFromYear = adjustYearSelectionScreen(
  * @param {KeyboardEvent} event the keydown event
  */
 const handlePageUpFromYear = adjustYearSelectionScreen(
-  (year) => year - YEAR_CHUNK,
+  (year) => year - YEAR_CHUNK
 );
 
 /**
@@ -2004,7 +1990,7 @@ const handlePageUpFromYear = adjustYearSelectionScreen(
  * @param {KeyboardEvent} event the keydown event
  */
 const handlePageDownFromYear = adjustYearSelectionScreen(
-  (year) => year + YEAR_CHUNK,
+  (year) => year + YEAR_CHUNK
 );
 
 /**
@@ -2055,7 +2041,7 @@ const tabHandler = (focusable) => {
   return {
     tabAhead(event) {
       const { firstTabStop, isLastTab, isNotFound } = getFocusableContext(
-        event.target,
+        event.target
       );
 
       if (isLastTab || isNotFound) {
@@ -2065,7 +2051,7 @@ const tabHandler = (focusable) => {
     },
     tabBack(event) {
       const { lastTabStop, isFirstTab, isNotFound } = getFocusableContext(
-        event.target,
+        event.target
       );
 
       if (isFirstTab || isNotFound) {
@@ -2247,7 +2233,6 @@ const datePicker = behavior(datePickerEvents, {
   },
   getDatePickerContext,
   disable,
-  ariaDisable,
   enable,
   isDateInputInvalid,
   setCalendarValue,
@@ -2258,4 +2243,4 @@ const datePicker = behavior(datePickerEvents, {
 
 // #endregion Date Picker Event Delegation Registration / Component
 
-module.exports = datePicker;
+export default datePicker;

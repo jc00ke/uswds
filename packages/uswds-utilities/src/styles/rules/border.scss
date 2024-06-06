@@ -12,13 +12,11 @@ output:
   border-[modifier]: [value];
 ----------------------------------------
 example:
-  .border-top-1px {
-    border-top: 1px solid;
-  }
+  .border-t-1px {
+    border-top: 1px solid; }
 
   .border-0 {
-    border: 0 solid;
-  }
+    border: none; }
 ----------------------------------------
 */
 
@@ -46,7 +44,7 @@ $u-border: (
     ),
     values: map-collect(get-palettes($border-palettes), $border-manual-values),
     valueAppend: " solid",
-    settings: $border-settings-complete,
+    settings: $border-settings,
     property: "border",
     type: "utility",
   ),

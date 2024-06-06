@@ -5,8 +5,7 @@
   "masthead": {
     "aria_label": "Agency identifier,,",
     "description": "Agency description,,",
-    "content_prefix": "An",
-    "content": "official website of the",
+    "content": "An official website of the",
     "parent": {
       "name": "<Parent agency>",
       "shortname": "<Parent shortname>",
@@ -33,7 +32,7 @@
         "include_shortname": true
       },
       {
-        "label": "Accessibility statement"
+        "label": "Accessibility support"
       },
       {
         "label": "FOIA requests"

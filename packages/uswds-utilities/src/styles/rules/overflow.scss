@@ -3,15 +3,14 @@
 overflow
 ----------------------------------------
 usage:
-  .overflow-[modifier]*-[key]
+  .overflow-[modifier]
 ----------------------------------------
 output:
-  overflow[-modifier]: [value];
+  overflow[-modifier]: [value] solid;
 ----------------------------------------
 example:
   .overflow-y-hidden {
-    overflow-y: hidden;
-  }
+    overflow-y: hidden; }
 ----------------------------------------
 */
 
@@ -29,7 +28,7 @@ $u-overflow: (
     ),
     values:
       map-collect(get-palettes($overflow-palettes), $overflow-manual-values),
-    settings: $overflow-settings-complete,
+    settings: $overflow-settings,
     property: "overflow",
     type: "utility",
   ),

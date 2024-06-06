@@ -1,17 +1,16 @@
 /*
 ========================================
-border-color
+background-color
 ----------------------------------------
 usage:
-  .border-[key]
+  .border-[color]
 ----------------------------------------
 output:
-  border-color: [value];
+  border[-color]: [color];
 ----------------------------------------
 example:
   .border-red {
-    border-color: #e52207;
-  }
+    border-color: #be4900; }
 ----------------------------------------
 */
 
@@ -32,7 +31,7 @@ $u-border-color: (
         get-palettes($global-color-palettes),
         $border-color-manual-values
       ),
-    settings: $border-color-settings-complete,
+    settings: $border-color-settings,
     type: "utility",
   ),
 );

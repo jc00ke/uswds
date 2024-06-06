@@ -3,19 +3,14 @@
 flex-direction
 ----------------------------------------
 usage:
-  .flex-[key]
+  .flex-direction-[value]
 ----------------------------------------
 output:
-  flex-direction: [value];
+  flex-direction: [value]
 ----------------------------------------
 example:
-  .flex-row {
-    flex-direction: row;
-  }
-
-  .flex-column {
-    flex-direction: column;
-  }
+  .flex-direction-row {
+    flex-direction: row; }
 ----------------------------------------
 */
 
@@ -32,7 +27,7 @@ $u-flex-direction: (
         get-palettes($flex-direction-palettes),
         $flex-direction-manual-values
       ),
-    settings: $flex-direction-settings-complete,
+    settings: $flex-direction-settings,
     property: "flex-direction",
     type: "utility",
   ),

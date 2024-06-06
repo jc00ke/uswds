@@ -1,7 +1,7 @@
 {
   "modifier": "usa-nav__primary",
   "nav": {
-    "megamenu": false,
+    "megamenu": true,
     "close": {
       "label": "Close"
     },

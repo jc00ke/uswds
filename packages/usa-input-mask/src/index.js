@@ -1,12 +1,13 @@
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
 
 const MASKED_CLASS = `${PREFIX}-masked`;
 const MASKED = `.${MASKED_CLASS}`;
 const MASK = `${PREFIX}-input-mask`;
 const MASK_CONTENT = `${MASK}--content`;
 const PLACEHOLDER = "placeholder";
+const CONTEXT = "form";
 
 // User defined Values
 const maskedNumber = "_#dDmMyY9";
@@ -34,7 +35,7 @@ const createMaskedInputShell = (input) => {
   content.textContent = placeholder;
 
   shell.appendChild(content);
-  input.parentNode.insertBefore(shell, input);
+  input.closest(CONTEXT).insertBefore(shell, input);
   shell.appendChild(input);
 };
 
@@ -122,4 +123,4 @@ const inputMask = behavior(inputMaskEvents, {
   },
 });
 
-module.exports = inputMask;
+export default inputMask;

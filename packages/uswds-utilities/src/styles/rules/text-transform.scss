@@ -3,15 +3,14 @@
 text-transform
 ----------------------------------------
 usage:
-  .text-[key]
+  .text-[value]
 ----------------------------------------
 output:
-  text-transform: [value];
+  text-transform: value;
 ----------------------------------------
 example:
   .text-uppercase {
-    text-transform: uppercase;
-  }
+    text-transform: uppercase; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-text-transform: (
         get-palettes($text-transform-palettes),
         $text-transform-manual-values
       ),
-    settings: $text-transform-settings-complete,
+    settings: $text-transform-settings,
     property: "text-transform",
     type: "utility",
   ),

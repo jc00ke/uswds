@@ -1,6 +1,5 @@
 @use "uswds-core" as *;
 @use "sass:color";
-@use "sass:list";
 
 .usa-in-page-nav-container {
   align-items: flex-start;
@@ -73,19 +72,6 @@
         $preferred-link-color: $theme-in-page-nav-link-color,
         $context: "In-page-navigation link"
       );
-
-      &:visited {
-        color: color(
-          list.nth(
-            get-link-tokens-from-bg(
-              $bg-color: $theme-in-page-nav-background-color,
-              $preferred-link-token: $theme-in-page-nav-link-color,
-              $context: "In-page-navigation link"
-            ),
-            1
-          )
-        );
-      }
     }
 
     &.usa-current {
@@ -126,9 +112,11 @@
 .usa-in-page-nav__item {
   @include typeset($theme-in-page-nav-font-family, "2xs", 2);
   border: none;
+  font-weight: bold;
   position: relative;
 
-  &--primary {
-    @include u-font-weight("bold");
+  &.usa-in-page-nav__item--sub-item {
+    font-weight: normal;
   }
 }
+

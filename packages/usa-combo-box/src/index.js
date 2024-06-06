@@ -1,9 +1,9 @@
-const keymap = require("receptor/keymap");
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const Sanitizer = require("../../uswds-core/src/js/utils/sanitizer");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
-const { CLICK } = require("../../uswds-core/src/js/events");
+import { keymap } from "receptor";
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
+import behavior from "../../uswds-core/src/js/utils/behavior";
+import { Sanitizer } from "../../uswds-core/src/js/utils/sanitizer";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
+import { CLICK } from "../../uswds-core/src/js/events";
 
 const COMBO_BOX_CLASS = `${PREFIX}-combo-box`;
 const COMBO_BOX_PRISTINE_CLASS = `${COMBO_BOX_CLASS}--pristine`;
@@ -125,20 +125,6 @@ const disable = (el) => {
 };
 
 /**
- * Check for aria-disabled on initialization
- *
- * @param {HTMLInputElement} el An element within the combo box component
- */
-const ariaDisable = (el) => {
-  const { inputEl, toggleListBtnEl, clearInputBtnEl } = getComboBoxContext(el);
-
-  clearInputBtnEl.hidden = true;
-  clearInputBtnEl.setAttribute("aria-disabled", true);
-  toggleListBtnEl.setAttribute("aria-disabled", true);
-  inputEl.setAttribute("aria-disabled", true);
-};
-
-/**
  * Enable the combo-box component
  *
  * @param {HTMLInputElement} el An element within the combo box component
@@ -199,7 +185,7 @@ const enhanceComboBox = (_comboBoxEl) => {
    */
   if (!selectLabel || !selectLabel.matches(`label[for="${selectId}"]`)) {
     throw new Error(
-      `${COMBO_BOX} for ${selectId} is either missing a label or a "for" attribute`,
+      `${COMBO_BOX} for ${selectId} is either missing a label or a "for" attribute`
     );
   } else {
     selectLabel.setAttribute("id", listIdLabel);
@@ -237,7 +223,7 @@ const enhanceComboBox = (_comboBoxEl) => {
     Object.keys(attr).forEach((key) => {
       const value = Sanitizer.escapeHTML`${attr[key]}`;
       input.setAttribute(key, value);
-    }),
+    })
   );
 
   comboBoxEl.insertAdjacentElement("beforeend", input);
@@ -264,7 +250,7 @@ const enhanceComboBox = (_comboBoxEl) => {
       <span id="${assistiveHintID}" class="usa-sr-only">
         When autocomplete results are available use up and down arrows to review and enter to select.
         Touch device users, explore by touch or with swipe gestures.
-      </span>`,
+      </span>`
   );
 
   if (selectedOption) {
@@ -277,11 +263,6 @@ const enhanceComboBox = (_comboBoxEl) => {
   if (selectEl.disabled) {
     disable(comboBoxEl);
     selectEl.disabled = false;
-  }
-
-  if (selectEl.hasAttribute("aria-disabled")) {
-    ariaDisable(comboBoxEl);
-    selectEl.removeAttribute("aria-disabled");
   }
 
   comboBoxEl.dataset.enhanced = "true";
@@ -453,7 +434,7 @@ const displayList = (el) => {
   if (numOptions) {
     listEl.innerHTML = "";
     optionHtml.forEach((item) =>
-      listEl.insertAdjacentElement("beforeend", item),
+      listEl.insertAdjacentElement("beforeend", item)
     );
   } else {
     listEl.innerHTML = "";
@@ -665,11 +646,11 @@ const handleDownFromListOption = (event) => {
 };
 
 /**
- * Handle the space event from an list option element within the combo box component.
+ * Handle the tab event from an list option element within the combo box component.
  *
  * @param {KeyboardEvent} event An event within the combo box component
  */
-const handleSpaceFromListOption = (event) => {
+const handleTabFromListOption = (event) => {
   selectItem(event.target);
   event.preventDefault();
 };
@@ -691,7 +672,7 @@ const handleEnterFromListOption = (event) => {
  */
 const handleUpFromListOption = (event) => {
   const { comboBoxEl, listEl, focusedOptionEl } = getComboBoxContext(
-    event.target,
+    event.target
   );
   const nextOptionEl = focusedOptionEl && focusedOptionEl.previousSibling;
   const listShown = !listEl.hidden;
@@ -715,7 +696,7 @@ const handleUpFromListOption = (event) => {
  */
 const handleMouseover = (listOptionEl) => {
   const isCurrentlyFocused = listOptionEl.classList.contains(
-    LIST_OPTION_FOCUSED_CLASS,
+    LIST_OPTION_FOCUSED_CLASS
   );
 
   if (isCurrentlyFocused) return;
@@ -798,7 +779,7 @@ const comboBox = behavior(
         ArrowDown: handleDownFromListOption,
         Down: handleDownFromListOption,
         Enter: handleEnterFromListOption,
-        " ": handleSpaceFromListOption,
+        Tab: handleTabFromListOption,
         "Shift+Tab": noop,
       }),
     },
@@ -829,7 +810,7 @@ const comboBox = behavior(
     displayList,
     hideList,
     COMBO_BOX_CLASS,
-  },
+  }
 );
 
-module.exports = comboBox;
+export default comboBox;

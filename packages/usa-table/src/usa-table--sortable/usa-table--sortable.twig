@@ -1,11 +1,5 @@
-{% if sticky_header %}
-  {% set sticky_header_class = "usa-table--sticky-header" %}
-{% endif %}
-
-{% if scrollable %}
 <div class="usa-table-container--scrollable" tabindex="0">
-{% endif %}
-  <table class="usa-table {{ sticky_header ? sticky_header_class }}">
+  <table class="usa-table">
     <caption>Recently admitted US states (sortable table example)</caption>
     <thead>
       <tr>
@@ -93,14 +87,10 @@
     <!-- this content will change when sort changes -->
   </div>
   <p class="margin-bottom-3">Data for illustration purposes only.</p>
-{% if scrollable %}
 </div>
-{% endif %}
 
-{% if scrollable %}
 <div class="usa-table-container--scrollable" tabindex="0">
-{% endif %}
-  <table class="usa-table usa-table--striped {{sticky_header ? 'usa-table--sticky-header' : ''}}">
+  <table class="usa-table usa-table--striped">
     <caption>Sortable striped table with various content types</caption>
     <thead>
       <tr>
@@ -168,14 +158,10 @@
     </tbody>
   </table>
   <div class="usa-sr-only usa-table__announcement-region" aria-live="polite"></div>
-{% if scrollable %}
 </div>
-{% endif %}
 
-{% if scrollable %}
 <div class="usa-table-container--scrollable" tabindex="0">
-{% endif %}
-  <table class="usa-table usa-table--borderless {{sticky_header ? 'usa-table--sticky-header' : ''}}">
+  <table class="usa-table usa-table--borderless">
     <caption>Sortable borderless table with various content types</caption>
     <thead>
       <tr>
@@ -242,6 +228,4 @@
     </tbody>
   </table>
   <div class="usa-sr-only usa-table__announcement-region" aria-live="polite"></div>
-{% if scrollable %}
 </div>
-{% endif %}

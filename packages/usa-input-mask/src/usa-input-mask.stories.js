@@ -8,13 +8,6 @@ import {
 
 export default {
   title: "Components/Form Inputs/Text Input Mask",
-  argTypes: {
-    disabled_state: {
-      name: "Disabled state",
-      control: { type: "radio" },
-      options: ["none", "disabled", "aria-disabled"],
-    },
-  },
 };
 
 const Template = (args) => Component(args);
@@ -30,15 +23,3 @@ ZIP.args = ZipContent;
 
 export const Alphanumeric = Template.bind({});
 Alphanumeric.args = AlphanumericContent;
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  ...AlphanumericContent,
-  disabled_state: "disabled",
-};
-
-export const AriaDisabled = Template.bind({});
-AriaDisabled.args = {
-  ...AlphanumericContent,
-  disabled_state: "aria-disabled",
-};

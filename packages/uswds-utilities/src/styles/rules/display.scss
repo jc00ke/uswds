@@ -6,12 +6,11 @@ usage:
   .display-[key]
 ----------------------------------------
 output:
-  display: [value];
+  display: [value]
 ----------------------------------------
 example:
   .display-none {
-    display: none;
-  }
+    display: none; }
 ----------------------------------------
 */
 
@@ -24,7 +23,7 @@ $u-display: (
     base: "display",
     modifiers: null,
     values: map-collect(get-palettes($display-palettes), $display-manual-values),
-    settings: $display-settings-complete,
+    settings: $display-settings,
     property: "display",
     type: "utility",
   ),

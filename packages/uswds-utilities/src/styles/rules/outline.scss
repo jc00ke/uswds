@@ -11,9 +11,8 @@ output:
   outline: [modifier] solid;
 ----------------------------------------
 example:
-  .outline-2px {
-    outline: 2px solid;
-  }
+  .outline-g05 {
+    outline: 4px solid }
 ----------------------------------------
 */
 
@@ -26,7 +25,7 @@ $u-outline: (
     base: "outline",
     modifiers: null,
     values: map-collect(get-palettes($outline-palettes), $outline-manual-values),
-    settings: $outline-settings-complete,
+    settings: $outline-settings,
     valuePrepend: null,
     valueAppend: " solid",
     property: "outline",

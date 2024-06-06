@@ -9,9 +9,8 @@ output:
   background-color: [value];
 ----------------------------------------
 example:
-  .bg-red {
-    background-color: #e52207;
-  }
+  .bg-red-50v {
+    background-color: #be4900; }
 ----------------------------------------
 */
 
@@ -31,7 +30,7 @@ $u-background-color: (
         get-palettes($global-color-palettes),
         $background-color-manual-values
       ),
-    settings: $background-color-settings-complete,
+    settings: $background-color-settings,
     type: "utility",
   ),
 );

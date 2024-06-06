@@ -6,12 +6,11 @@ usage:
   .text-[key]
 ----------------------------------------
 output:
-  text-align: [value];
+  align: [value];
 ----------------------------------------
 example:
   .text-left {
-    text-align: left;
-  }
+    align: left; }
 ----------------------------------------
 */
 
@@ -25,7 +24,7 @@ $u-text-align: (
     modifiers: null,
     values:
       map-collect(get-palettes($text-align-palettes), $text-align-manual-values),
-    settings: $text-align-settings-complete,
+    settings: $text-align-settings,
     property: "text-align",
     type: "utility",
   ),

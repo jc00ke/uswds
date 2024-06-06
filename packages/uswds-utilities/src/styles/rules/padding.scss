@@ -3,19 +3,17 @@
 padding
 ----------------------------------------
 usage:
-  .padding-[modifier]*-[key]
+  .padding-[modifier]*-[value]
 ----------------------------------------
 output:
-  padding[-modifier]: [value];
+  padding: [value]
 ----------------------------------------
 example:
   .padding-0 {
-    padding: 0;
-  }
+    padding: none; }
 
   .padding-bottom-1px {
-    padding-bottom: 1px;
-  }
+    padding-bottom: 1px; }
 ----------------------------------------
 */
 
@@ -42,7 +40,7 @@ $u-padding: (
       "left": "-left",
     ),
     values: map-collect(get-palettes($padding-palettes), $padding-manual-values),
-    settings: $padding-settings-complete,
+    settings: $padding-settings,
     property: "padding",
     type: "utility",
   ),

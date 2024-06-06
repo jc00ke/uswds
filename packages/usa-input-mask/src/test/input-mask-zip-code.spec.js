@@ -4,7 +4,7 @@ const assert = require("assert");
 const InputMask = require("../index");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/input-mask-zip-code.template.html"),
+  path.join(__dirname, "/input-mask-zip-code.template.html")
 );
 
 const EVENTS = {};
@@ -53,3 +53,4 @@ tests.forEach(({ name, selector: containerSelector }) => {
     });
   });
 });
+

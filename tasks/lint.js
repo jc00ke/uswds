@@ -4,7 +4,7 @@ const stylelint = require("stylelint");
 const dutil = require("./utils/doc-util");
 
 const IGNORE_STRING = "This file is ignored";
-const PROJECT_SASS_SRC = "./packages";
+const PROJECT_SASS_SRC = "src/stylesheets";
 
 function ignoreStylelintIgnoreWarnings(lintResults) {
   return formatters.string(
@@ -40,16 +40,15 @@ function typecheck() {
 };
 
 async function lintSass(callback) {
-  const { errored, report } = await stylelint.lint({
+  const { errored, output } = await stylelint.lint({
     files: [
       `${PROJECT_SASS_SRC}/**/*.scss`,
       `!${PROJECT_SASS_SRC}/uswds/**/*.scss`,
-      `!${PROJECT_SASS_SRC}/uswds-elements/lib/**/*.scss`,
     ],
     formatter: "string",
   });
 
-  callback(errored ? new Error(report) : null);
+  callback(errored ? new Error(output) : null);
 }
 
 module.exports = {

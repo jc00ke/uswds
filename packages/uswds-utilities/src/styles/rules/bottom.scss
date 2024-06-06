@@ -1,6 +1,8 @@
 /*
 ========================================
-bottom
+.bottom
+----------------------------------------
+property: bottom
 ----------------------------------------
 usage:
   .bottom-[key]
@@ -9,13 +11,8 @@ output:
   bottom: [value];
 ----------------------------------------
 example:
-  .bottom-3 {
-    bottom: 1.5rem;
-  }
-
-  .bottom-neg-2px {
-    bottom: -2px;
-  }
+  .bottom-n2px {
+    bottom: -2px; }
 ----------------------------------------
 */
 
@@ -28,7 +25,7 @@ $u-bottom: (
     base: "bottom",
     modifiers: null,
     values: map-collect(get-palettes($bottom-palettes), $bottom-manual-values),
-    settings: $bottom-settings-complete,
+    settings: $bottom-settings,
     property: "bottom",
     type: "utility",
   ),

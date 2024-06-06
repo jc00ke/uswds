@@ -9,7 +9,6 @@ USWDS Properties
 
 @use "./functions/general/map-collect" as *;
 @use "./functions/units/units" as *;
-@use "./functions/units/spacing-multiple" as *;
 @use "./functions/utilities/line-height" as *;
 // TODO: ^^^ s/b "functions/utilities/units"
 
@@ -326,8 +325,7 @@ $system-properties: (
         map.get($system-spacing, "smaller-negative"),
         map.get($system-spacing, "small-negative"),
         map.get($partial-values, "zero-zero"),
-        map.get($partial-values, "auto"),
-        map.get($partial-values, "full-percent")
+        map.get($partial-values, "auto")
       ),
     extended: (),
   ),
@@ -611,8 +609,7 @@ $system-properties: (
         map.get($system-spacing, "smaller-negative"),
         map.get($system-spacing, "small-negative"),
         map.get($partial-values, "zero-zero"),
-        map.get($partial-values, "auto"),
-        map.get($partial-values, "full-percent")
+        map.get($partial-values, "auto")
       ),
     extended: (),
   ),
@@ -676,8 +673,7 @@ $system-properties: (
         map.get($system-spacing, "smaller-negative"),
         map.get($system-spacing, "small-negative"),
         map.get($partial-values, "zero-zero"),
-        map.get($partial-values, "auto"),
-        map.get($partial-values, "full-percent")
+        map.get($partial-values, "auto")
       ),
     extended: (),
   ),

@@ -3,18 +3,15 @@ const fs = require("fs");
 const fileInput = require("../index");
 
 const TEMPLATE = fs.readFileSync(
-  `${__dirname}/file-input-single.template.html`,
+  `${__dirname}/file-input-single.template.html`
 );
 
 const tests = [
   { name: "document.body", selector: () => document.body },
-  {
-    name: "file input",
-    selector: () => document.querySelector(".usa-file-input"),
-  },
+  { name: "file input", selector: () => document.querySelector('.usa-file-input') }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`File input initialized at ${name}`, () => {
     describe("file input: single file input", () => {
       const { body } = document;
@@ -33,7 +30,7 @@ tests.forEach(({ name, selector: containerSelector }) => {
       });
 
       it('uses singular "file" if there is not a "multiple" attribute', () => {
-        assert.strictEqual(dragText.innerHTML, "Drag file here or");
+        assert.strictEqual(dragText.innerHTML, "Drag file here or ");
       });
     });
   });

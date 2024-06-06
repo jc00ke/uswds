@@ -6,17 +6,16 @@ const DateRangePicker = require("../index");
 const EVENTS = require("./events");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/date-range-picker.template.html"),
+  path.join(__dirname, "/date-range-picker.template.html")
 );
 
-const dateRangePickerSelector = () =>
-  document.querySelector(".usa-date-range-picker");
+const dateRangePickerSelector = () => document.querySelector('.usa-date-range-picker');
 const tests = [
   { name: "document.body", selector: () => document.body },
-  { name: "date range picker", selector: dateRangePickerSelector },
+  { name: "date range picker", selector: dateRangePickerSelector }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`date range picker component initialized at ${name}`, () => {
     const { body } = document;
 
@@ -34,10 +33,10 @@ tests.forEach(({ name, selector: containerSelector }) => {
       rangeStart = root.querySelector(".usa-date-range-picker__range-start");
       rangeEnd = root.querySelector(".usa-date-range-picker__range-end");
       rangeStartInputEl = rangeStart.querySelector(
-        ".usa-date-picker__external-input",
+        ".usa-date-picker__external-input"
       );
       rangeEndInputEl = rangeEnd.querySelector(
-        ".usa-date-picker__external-input",
+        ".usa-date-picker__external-input"
       );
     });
 
@@ -62,14 +61,10 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeEnd.dataset.minDate,
         "0000-01-01",
-        "has the default min date",
+        "has the default min date"
       );
       assert.strictEqual(rangeEnd.dataset.rangeDate, "", "has no range date");
-      assert.strictEqual(
-        rangeEnd.dataset.defaultDate,
-        "",
-        "has no default date",
-      );
+      assert.strictEqual(rangeEnd.dataset.defaultDate, "", "has no default date");
     });
 
     it("should update the range end date picker properties to have a min date and range date when the range start date picker has an updated valid value", () => {
@@ -80,17 +75,17 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeEnd.dataset.minDate,
         "2020-12-12",
-        "has updated min date",
+        "has updated min date"
       );
       assert.strictEqual(
         rangeEnd.dataset.rangeDate,
         "2020-12-12",
-        "has updated range date",
+        "has updated range date"
       );
       assert.strictEqual(
         rangeEnd.dataset.defaultDate,
         "2020-12-12",
-        "has updated default date",
+        "has updated default date"
       );
     });
 
@@ -102,14 +97,10 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeEnd.dataset.minDate,
         "0000-01-01",
-        "has the default min date",
+        "has the default min date"
       );
       assert.strictEqual(rangeEnd.dataset.rangeDate, "", "has no range date");
-      assert.strictEqual(
-        rangeEnd.dataset.defaultDate,
-        "",
-        "has no default date",
-      );
+      assert.strictEqual(rangeEnd.dataset.defaultDate, "", "has no default date");
     });
 
     it("should reset the range start date picker properties when the range end date picker has an empty value", () => {
@@ -122,7 +113,7 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeStart.dataset.defaultDate,
         "",
-        "has no default date",
+        "has no default date"
       );
     });
 
@@ -134,17 +125,17 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeStart.dataset.maxDate,
         "2020-12-11",
-        "has updated min date",
+        "has updated min date"
       );
       assert.strictEqual(
         rangeStart.dataset.rangeDate,
         "2020-12-11",
-        "has updated range date",
+        "has updated range date"
       );
       assert.strictEqual(
         rangeStart.dataset.defaultDate,
         "2020-12-11",
-        "has updated default date",
+        "has updated default date"
       );
     });
 
@@ -158,7 +149,7 @@ tests.forEach(({ name, selector: containerSelector }) => {
       assert.strictEqual(
         rangeStart.dataset.defaultDate,
         "",
-        "has no default date",
+        "has no default date"
       );
     });
   });

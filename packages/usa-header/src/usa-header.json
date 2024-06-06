@@ -5,7 +5,6 @@
     "menu": {
       "label": "Menu"
     },
-    "megamenu": false,
     "aria_label": "Primary navigation",
     "close": {
       "label": "Close"

@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .text-ls-2 {
-    letter-spacing: .1em;
-  }
+    letter-spacing: .1em; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-letter-spacing: (
         get-palettes($letter-spacing-palettes),
         $letter-spacing-manual-values
       ),
-    settings: $letter-spacing-settings-complete,
+    settings: $letter-spacing-settings,
     property: "letter-spacing",
     type: "utility",
   ),

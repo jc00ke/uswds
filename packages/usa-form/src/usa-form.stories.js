@@ -1,4 +1,3 @@
-import FormCollected from "./test/test-pattern/test-usa-form.twig";
 import FormAddress from "../../templates/usa-address-form.twig";
 import FormName from "../../templates/usa-name-form.twig";
 import FormPassword from "../../templates/usa-password-reset-form.twig";
@@ -12,22 +11,8 @@ import EsMultipleContent from "../../templates/usa-sign-in/usa-sign-in--multiple
 
 export default {
   title: "Patterns/Forms",
-  argTypes: {
-    disabled_state: {
-      name: "Disabled state",
-      control: { type: "radio" },
-      options: ["none", "disabled", "aria-disabled"],
-      table: { disable: true },
-    },
-    error_state: {
-      name: "Error state",
-      control: { type: "boolean" },
-      table: { disable: true },
-    },
-  },
 };
 
-const CollectionTemplate = (args) => FormCollected(args);
 const AddressTemplate = (args) => FormAddress(args);
 const NameTemplate = (args) => FormName(args);
 const PasswordTemplate = (args) => FormPassword(args);
@@ -51,19 +36,3 @@ SignInMultiple.args = MultipleContent;
 
 export const SignInMultipleSpanish = SignInMultipleTemplate.bind({});
 SignInMultipleSpanish.args = EsMultipleContent;
-
-export const DisabledFormElements = CollectionTemplate.bind({});
-DisabledFormElements.argTypes = {
-  disabled_state: {
-    defaultValue: "disabled",
-    table: { disable: false },
-  },
-};
-
-export const TestErrorFormElements = CollectionTemplate.bind({});
-TestErrorFormElements.argTypes = {
-  error_state: {
-    defaultValue: true,
-    table: { disable: false },
-  },
-};

@@ -1,14 +1,20 @@
-@use "../utilities" as *;
+@use "./add-knockout-font-smoothing" as *;
+@use "../../functions" as *;
 
 @mixin button-disabled {
-  @include u-disabled;
+  @include add-knockout-font-smoothing;
+  background-color: color("disabled");
+  color: color("white");
+  cursor: auto;
 
+  &:hover,
   &.usa-button--hover,
-  &.usa-button--active {
-    @include u-disabled;
-  }
-
-  &:not(.usa-button--unstyled) {
-    @include u-disabled-high-contrast-border;
+  &:active,
+  &.usa-button--active,
+  &:focus,
+  &.usa-focus {
+    background-color: color("disabled");
+    border: 0;
+    box-shadow: none;
   }
 }

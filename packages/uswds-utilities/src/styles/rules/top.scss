@@ -1,6 +1,8 @@
 /*
 ========================================
-top
+.top
+----------------------------------------
+property: top
 ----------------------------------------
 usage:
   .top-[key]
@@ -9,9 +11,8 @@ output:
   top: [value];
 ----------------------------------------
 example:
-  .top-neg-2px {
-    top: -2px;
-  }
+  .top-n2px {
+    top: -2px; }
 ----------------------------------------
 */
 
@@ -24,7 +25,7 @@ $u-top: (
     base: "top",
     modifiers: null,
     values: map-collect(get-palettes($top-palettes), $top-manual-values),
-    settings: $top-settings-complete,
+    settings: $top-settings,
     property: "top",
     type: "utility",
   ),

@@ -3,19 +3,16 @@
 font-style
 ----------------------------------------
 usage:
-  .text-[key]
+  .text-italic
 ----------------------------------------
 output:
-  font-style: [value];
+  font-style: italic;
 ----------------------------------------
 example:
   .text-italic {
-    font-style: italic;
-  }
-
+    font-style: italic; }
   .text-no-italic {
-    font-style: normal;
-  }
+    font-style: normal; }
 ----------------------------------------
 */
 
@@ -29,7 +26,7 @@ $u-font-style: (
     modifiers: null,
     values:
       map-collect(get-palettes($font-style-palettes), $font-style-manual-values),
-    settings: $font-style-settings-complete,
+    settings: $font-style-settings,
     property: "font-style",
     type: "utility",
   ),

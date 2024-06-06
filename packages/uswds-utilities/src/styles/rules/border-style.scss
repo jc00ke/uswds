@@ -3,15 +3,14 @@
 border-style
 ----------------------------------------
 usage:
-  .border-[key]
+  .border[-modifier]*-[key]
 ----------------------------------------
 output:
   border-style: [value];
 ----------------------------------------
 example:
   .border-dotted {
-    border-style: dotted;
-  }
+    border-style: dotted; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-border-style: (
         get-palettes($border-style-palettes),
         $border-style-manual-values
       ),
-    settings: $border-style-settings-complete,
+    settings: $border-style-settings,
     property: "border-style",
     type: "utility",
   ),

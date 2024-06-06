@@ -10,10 +10,9 @@ output:
   width: [value];
 ----------------------------------------
 example:
-  .square-6 {
+  .square-g6 {
     height: 3rem;
-    width: 3rem;
-  }
+    width: 3rem; }
 ----------------------------------------
 */
 
@@ -31,7 +30,7 @@ $u-square: (
       ),
     ),
     values: map-collect(get-palettes($square-palettes), $square-manual-values),
-    settings: $square-settings-complete,
+    settings: $square-settings,
     property: "",
     type: "utility",
   ),

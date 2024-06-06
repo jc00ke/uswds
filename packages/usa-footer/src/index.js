@@ -1,6 +1,6 @@
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const { CLICK } = require("../../uswds-core/src/js/events");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import { CLICK } from "../../uswds-core/src/js/events";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
 
 const SCOPE = `.${PREFIX}-footer--big`;
 const NAV = `${SCOPE} nav`;
@@ -38,27 +38,23 @@ function toggleHtmlTag(isMobile) {
   }
 
   const primaryLinks = bigFooter.querySelectorAll(BUTTON);
+  const newElementType = isMobile ? "button" : "h4";
 
   primaryLinks.forEach((currentElement) => {
     const currentElementClasses = currentElement.getAttribute("class");
-    const preservedHtmlTag =
-      currentElement.getAttribute("data-tag") || currentElement.tagName;
-
-    const newElementType = isMobile ? "button" : preservedHtmlTag;
 
     // Create the new element
     const newElement = document.createElement(newElementType);
     newElement.setAttribute("class", currentElementClasses);
     newElement.classList.toggle(
       `${PREFIX}-footer__primary-link--button`,
-      isMobile,
+      isMobile
     );
     newElement.textContent = currentElement.textContent;
 
     if (isMobile) {
-      newElement.setAttribute("data-tag", currentElement.tagName);
       const menuId = `${PREFIX}-footer-menu-list-${Math.floor(
-        Math.random() * 100000,
+        Math.random() * 100000
       )}`;
 
       newElement.setAttribute("aria-controls", menuId);
@@ -77,7 +73,7 @@ const resize = (event) => {
   toggleHtmlTag(event.matches);
 };
 
-module.exports = behavior(
+export default behavior(
   {
     [CLICK]: {
       [BUTTON]: showPanel,
@@ -90,7 +86,7 @@ module.exports = behavior(
     init() {
       toggleHtmlTag(window.innerWidth < HIDE_MAX_WIDTH);
       this.mediaQueryList = window.matchMedia(
-        `(max-width: ${HIDE_MAX_WIDTH - 0.1}px)`,
+        `(max-width: ${HIDE_MAX_WIDTH - 0.1}px)`
       );
       this.mediaQueryList.addListener(resize);
     },
@@ -98,5 +94,5 @@ module.exports = behavior(
     teardown() {
       this.mediaQueryList.removeListener(resize);
     },
-  },
+  }
 );

@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .flex-align-start {
-    align-items: flex-start;
-  }
+    align-items: flex-start; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-align-items: (
         get-palettes($align-items-palettes),
         $align-items-manual-values
       ),
-    settings: $align-items-settings-complete,
+    settings: $align-items-settings,
     property: "align-items",
     type: "utility",
   ),

@@ -1,10 +1,9 @@
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
-const {
-  COMBO_BOX_CLASS,
-  enhanceComboBox,
-} = require("../../usa-combo-box/src/index");
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
+import comboBox from "../../usa-combo-box/src/index";
+
+const { COMBO_BOX_CLASS, enhanceComboBox } = comboBox;
 
 const TIME_PICKER_CLASS = `${PREFIX}-time-picker`;
 const TIME_PICKER = `.${TIME_PICKER_CLASS}`;
@@ -62,21 +61,15 @@ const transformTimePicker = (el) => {
 
   const selectEl = document.createElement("select");
 
-  [
-    "id",
-    "name",
-    "required",
-    "aria-label",
-    "aria-labelledby",
-    "disabled",
-    "aria-disabled",
-  ].forEach((name) => {
-    if (initialInputEl.hasAttribute(name)) {
-      const value = initialInputEl.getAttribute(name);
-      selectEl.setAttribute(name, value);
-      initialInputEl.removeAttribute(name);
+  ["id", "name", "required", "aria-label", "aria-labelledby"].forEach(
+    (name) => {
+      if (initialInputEl.hasAttribute(name)) {
+        const value = initialInputEl.getAttribute(name);
+        selectEl.setAttribute(name, value);
+        initialInputEl.removeAttribute(name);
+      }
     }
-  });
+  );
 
   const padZeros = (value, length) => `0000${value}`.slice(-length);
 
@@ -96,14 +89,14 @@ const transformTimePicker = (el) => {
 
   const minTime = Math.max(
     MIN_TIME,
-    parseTimeString(timePickerEl.dataset.minTime) || MIN_TIME,
+    parseTimeString(timePickerEl.dataset.minTime) || MIN_TIME
   );
   const maxTime = Math.min(
     MAX_TIME,
-    parseTimeString(timePickerEl.dataset.maxTime) || MAX_TIME,
+    parseTimeString(timePickerEl.dataset.maxTime) || MAX_TIME
   );
   const step = Math.floor(
-    Math.max(MIN_STEP, timePickerEl.dataset.step || DEFAULT_STEP),
+    Math.max(MIN_STEP, timePickerEl.dataset.step || DEFAULT_STEP)
   );
 
   let defaultValue;
@@ -142,7 +135,7 @@ const timePicker = behavior(
       });
     },
     FILTER_DATASET,
-  },
+  }
 );
 
-module.exports = timePicker;
+export default timePicker;

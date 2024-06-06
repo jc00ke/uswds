@@ -3,15 +3,14 @@
 vertical-align
 ----------------------------------------
 usage:
-  .text-[key]
+  .vertical-align-[value]
 ----------------------------------------
 output:
-  vertical-align: [value];
+  vertical-align: [value]
 ----------------------------------------
 example:
-  .text-top {
-    vertical-align: top;
-  }
+  .vertical-align-top {
+    vertical-align: top; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-vertical-align: (
         get-palettes($vertical-align-palettes),
         $vertical-align-manual-values
       ),
-    settings: $vertical-align-settings-complete,
+    settings: $vertical-align-settings,
     property: "vertical-align",
     type: "utility",
   ),

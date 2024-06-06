@@ -3,15 +3,14 @@
 line-height
 ----------------------------------------
 usage:
-  .line-height-[modifier]-[key]
+  .line-height-[value]
 ----------------------------------------
 output:
   line-height: [value];
 ----------------------------------------
 example:
   .line-height-sans-2 {
-    line-height: 1.1;
-  }
+    line-height: 1.15; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-line-height: (
         get-palettes($line-height-palettes),
         $line-height-manual-values
       ),
-    settings: $line-height-settings-complete,
+    settings: $line-height-settings,
     property: "line-height",
     type: "utility",
   ),

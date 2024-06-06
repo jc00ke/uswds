@@ -1,8 +1,7 @@
 @use "uswds-core" as *;
 
-$background-context: "Background";
-
 .usa-dark-background {
+  @include add-knockout-font-smoothing;
   background-color: color("base-darker");
 
   p,
@@ -11,10 +10,14 @@ $background-context: "Background";
   }
 
   a {
-    @include set-link-from-bg(
-      "base-darker",
-      $theme-link-reverse-color,
-      $context: $background-context
-    );
+    color: color($theme-link-reverse-color);
+
+    &:visited {
+      color: color($theme-link-reverse-color);
+    }
+
+    &:hover {
+      color: color($theme-link-reverse-hover-color);
+    }
   }
 }

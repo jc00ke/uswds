@@ -5,18 +5,15 @@ const ComboBox = require("../index");
 const EVENTS = require("./events");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/combo-box-filter.template.html"),
+  path.join(__dirname, "/combo-box-filter.template.html")
 );
 
 const tests = [
   { name: "document.body", selector: () => document.body },
-  {
-    name: "combo box",
-    selector: () => document.querySelector(".usa-combo-box"),
-  },
+  { name: "combo box", selector: () => document.querySelector(".usa-combo-box") }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`Combo box initialized at ${name}`, () => {
     describe("combo box component with filter attribute", () => {
       const { body } = document;
@@ -47,7 +44,7 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           list.children.length,
           2,
-          "should filter the item by the string starting with the option",
+          "should filter the item by the string starting with the option"
         );
       });
     });

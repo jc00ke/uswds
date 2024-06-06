@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .position-absolute {
-    position: absolute;
-  }
+    position: absolute; }
 ----------------------------------------
 */
 
@@ -25,7 +24,7 @@ $u-position: (
     modifiers: null,
     values:
       map-collect(get-palettes($position-palettes), $position-manual-values),
-    settings: $position-settings-complete,
+    settings: $position-settings,
     property: "position",
     type: "utility",
   ),

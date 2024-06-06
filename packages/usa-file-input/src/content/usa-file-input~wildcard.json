@@ -5,5 +5,6 @@
   "error": false,
   "error_message": "",
   "accept": "image/*",
-  "multiple": true
+  "multiple": true,
+  "disabled": false
 }

@@ -10,16 +10,13 @@ output:
 ----------------------------------------
 example:
   .flex-1 {
-    flex: 1 0 0;
-  }
+    flex: 1 0 0; }
 
   .flex-fill {
-    flex: 1 0 0;
-  }
+    flex: 1 0 0; }
 
   .flex-auto {
-    flex: 0 1 auto;
-  }
+    flex: none; }
 ----------------------------------------
 */
 
@@ -32,7 +29,7 @@ $u-flex: (
     base: "flex",
     modifiers: null,
     values: map-collect(get-palettes($flex-palettes), $flex-manual-values),
-    settings: $flex-settings-complete,
+    settings: $flex-settings,
     property: "flex",
     type: "utility",
   ),

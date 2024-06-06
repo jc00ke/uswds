@@ -9,13 +9,8 @@ output:
   font-weight: [value];
 ----------------------------------------
 example:
-  .text-bold {
-    font-weight: 700;
-  }
-
-  .text-light{
-    font-weight: 300;
-  }
+  .text-300 {
+    font-weight: 300; }
 ----------------------------------------
 */
 
@@ -32,7 +27,7 @@ $u-font-weight: (
         get-palettes($font-weight-palettes),
         $font-weight-manual-values
       ),
-    settings: $font-weight-settings-complete,
+    settings: $font-weight-settings,
     property: "font-weight",
     type: "utility",
   ),

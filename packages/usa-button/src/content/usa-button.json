@@ -2,5 +2,5 @@
   "modifier": "",
   "text": "Default",
   "is_demo": true,
-  "type": "button"
+  "aria_disabled": false
 }

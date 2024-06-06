@@ -60,8 +60,7 @@
     }
   }
 
-  // Avoids links styled as buttons
-  a:where(:not(.usa-button)) {
+  a {
     @include typeset-link;
   }
 }

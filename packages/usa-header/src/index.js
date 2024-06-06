@@ -1,13 +1,13 @@
-const keymap = require("receptor/keymap");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const select = require("../../uswds-core/src/js/utils/select");
-const toggle = require("../../uswds-core/src/js/utils/toggle");
-const FocusTrap = require("../../uswds-core/src/js/utils/focus-trap");
-const accordion = require("../../usa-accordion/src/index");
-const ScrollBarWidth = require("../../uswds-core/src/js/utils/scrollbar-width");
+import { keymap } from "receptor";
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import select  from "../../uswds-core/src/js/utils/select";
+import toggle from "../../uswds-core/src/js/utils/toggle";
+import focusTrap from "../../uswds-core/src/js/utils/focus-trap";
+import accordion from "../../usa-accordion/src/index";
+import getScrollbarWidth from "../../uswds-core/src/js/utils/scrollbar-width";
 
-const { CLICK } = require("../../uswds-core/src/js/events");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
+import { CLICK } from "../../uswds-core/src/js/events";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
 
 const BODY = "body";
 const HEADER = `.${PREFIX}-header`;
@@ -34,12 +34,7 @@ let navActive;
 let nonNavElements;
 
 const isActive = () => document.body.classList.contains(ACTIVE_CLASS);
-// Detect Safari
-// Note: Chrome also reports the Safari userAgent so this specifically excludes Chrome.
-const isSafari =
-  navigator.userAgent.includes("Safari") &&
-  !navigator.userAgent.includes("Chrome");
-const SCROLLBAR_WIDTH = ScrollBarWidth();
+const SCROLLBAR_WIDTH = getScrollbarWidth();
 const INITIAL_PADDING = window
   .getComputedStyle(document.body)
   .getPropertyValue("padding-right");
@@ -53,7 +48,7 @@ const hideNonNavItems = () => {
   nonNavElements = document.querySelectorAll(NON_NAV_ELEMENTS);
 
   nonNavElements.forEach((nonNavElement) => {
-    if (nonNavElement !== headerParent) {
+    if(nonNavElement !== headerParent) {
       nonNavElement.setAttribute("aria-hidden", true);
       nonNavElement.setAttribute(NON_NAV_HIDDEN_ATTRIBUTE, "");
     }
@@ -83,39 +78,14 @@ const toggleNonNavItems = (active) => {
   }
 };
 
-/**
- * Detect Safari and add body class for a Safari-only CSS bug fix.
- * More details in https://github.com/uswds/uswds/pull/5443
- */
-const addSafariClass = () => {
-  if (isSafari) {
-    document.body.classList.add("is-safari");
-  }
-};
-
-/**
- * Set the value for the --scrolltop CSS var when the mobile menu is open.
- * This allows the CSS to lock the current scroll position in Safari
- * when overflow-y is set to scroll.
- * More details in https://github.com/uswds/uswds/pull/5443
- */
-const setSafariScrollPosition = (body) => {
-  const currentScrollPosition = `-${window.scrollY}px`;
-  if (isSafari) {
-    body.style.setProperty("--scrolltop", currentScrollPosition);
-  }
-};
-
 const toggleNav = (active) => {
   const { body } = document;
   const safeActive = typeof active === "boolean" ? active : !isActive();
 
-  setSafariScrollPosition(body);
-
   body.classList.toggle(ACTIVE_CLASS, safeActive);
 
   select(TOGGLES).forEach((el) =>
-    el.classList.toggle(VISIBLE_CLASS, safeActive),
+    el.classList.toggle(VISIBLE_CLASS, safeActive)
   );
 
   navigation.focusTrap.update(safeActive);
@@ -136,10 +106,11 @@ const toggleNav = (active) => {
     closeButton.focus();
   } else if (
     !safeActive &&
-    menuButton &&
-    getComputedStyle(menuButton).display !== "none"
+    document.activeElement === closeButton &&
+    menuButton
   ) {
-    // The mobile nav was just deactivated. We don't want the focus to
+    // The mobile nav was just deactivated, and focus was on the close
+    // button, which is no longer visible. We don't want the focus to
     // disappear into the void, so focus on the menu button if it's
     // visible (this may have been what the user was just focused on,
     // if they triggered the mobile nav by mistake).
@@ -176,10 +147,7 @@ const focusNavButton = (event) => {
 
   // Only shift focus if within dropdown
   if (!event.target.matches(NAV_CONTROL)) {
-    const navControl = parentNavItem.querySelector(NAV_CONTROL);
-    if (navControl) {
-      navControl.focus();
-    }
+    parentNavItem.querySelector(NAV_CONTROL).focus();
   }
 };
 
@@ -246,12 +214,11 @@ navigation = behavior(
       const trapContainer = root.matches(NAV) ? root : root.querySelector(NAV);
 
       if (trapContainer) {
-        navigation.focusTrap = FocusTrap(trapContainer, {
+        navigation.focusTrap = focusTrap(trapContainer, {
           Escape: onMenuClose,
         });
       }
 
-      addSafariClass();
       resize();
       window.addEventListener("resize", resize, false);
     },
@@ -261,7 +228,7 @@ navigation = behavior(
     },
     focusTrap: null,
     toggleNav,
-  },
+  }
 );
 
-module.exports = navigation;
+export default navigation;

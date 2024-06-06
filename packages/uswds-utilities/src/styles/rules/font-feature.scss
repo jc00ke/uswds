@@ -11,8 +11,7 @@ output:
 example:
   .text-tabular {
     font-feature-settings:
-      'tnum' 1, 'kern' 1;
-  }
+      'tnum' 1, 'kern' 1; }
 ----------------------------------------
 */
 
@@ -29,7 +28,7 @@ $u-font-feature: (
         get-palettes($font-feature-palettes),
         $font-feature-manual-values
       ),
-    settings: $font-feature-settings-complete,
+    settings: $font-feature-settings,
     property: "font-feature-settings",
     type: "utility",
   ),

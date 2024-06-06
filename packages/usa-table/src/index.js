@@ -1,8 +1,8 @@
-const select = require("../../uswds-core/src/js/utils/select");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const { CLICK } = require("../../uswds-core/src/js/events");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
-const Sanitizer = require("../../uswds-core/src/js/utils/sanitizer");
+import select  from "../../uswds-core/src/js/utils/select";
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import { CLICK } from "../../uswds-core/src/js/events";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
+import { Sanitizer } from "../../uswds-core/src/js/utils/sanitizer";
 
 const TABLE = `.${PREFIX}-table`;
 const SORTED = "aria-sort";
@@ -77,7 +77,7 @@ const updateSortLabel = (header) => {
     header.getAttribute(SORTED) === ASCENDING ||
     header.getAttribute(SORTED) === DESCENDING ||
     false;
-  const headerLabel = `${headerName}, sortable column, currently ${
+  const headerLabel = `${headerName}', sortable column, currently ${
     isSorted
       ? `${sortedAscending ? `sorted ${ASCENDING}` : `sorted ${DESCENDING}`}`
       : "unsorted"
@@ -152,7 +152,7 @@ const updateLiveRegion = (table, sortedHeader) => {
     liveRegion.innerText = sortAnnouncement;
   } else {
     throw new Error(
-      `Table containing a sortable column header is not followed by an aria-live region.`,
+      `Table containing a sortable column header is not followed by an aria-live region.`
     );
   }
 };
@@ -223,7 +223,7 @@ const table = behavior(
         toggleSort(
           event.target.closest(SORTABLE_HEADER),
           event.target.closest(SORTABLE_HEADER).getAttribute(SORTED) ===
-            ASCENDING,
+            ASCENDING
         );
       },
     },
@@ -236,7 +236,7 @@ const table = behavior(
       const firstSorted = sortableHeaders.filter(
         (header) =>
           header.getAttribute(SORTED) === ASCENDING ||
-          header.getAttribute(SORTED) === DESCENDING,
+          header.getAttribute(SORTED) === DESCENDING
       )[0];
       if (typeof firstSorted === "undefined") {
         // no sortable headers found
@@ -252,7 +252,7 @@ const table = behavior(
     TABLE,
     SORTABLE_HEADER,
     SORT_BUTTON,
-  },
+  }
 );
 
-module.exports = table;
+export default table;

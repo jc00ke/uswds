@@ -69,17 +69,6 @@ $theme-global-content-styles: false !default;
 
 /*
 ----------------------------------------
-Broswer compatibility mode
-----------------------------------------
-When true, outputs woff and ttf font 
-formats in addition to woff2
-----------------------------------------
-*/
-
-$theme-font-browser-compatibility: false !default;
-
-/*
-----------------------------------------
 Font path
 ----------------------------------------
 Relative font file path
@@ -235,7 +224,9 @@ EXAMPLE
 - dir:
   Directory relative to $theme-font-path
 - This directory should include fonts saved as
-  .woff2
+  .ttf, .woff, and .woff2
+  ExampleSerif-Normal.ttf
+  ExampleSerif-Normal.woff
   ExampleSerif-Normal.woff2
 
 $theme-font-serif-custom-src: (
@@ -427,7 +418,3 @@ $theme-lead-font-family: "heading" !default;
 $theme-lead-font-size: "lg" !default;
 $theme-lead-line-height: 6 !default;
 $theme-lead-measure: 6 !default;
-
-// Margin
-$theme-heading-margin-top: 1.5em !default;
-$theme-paragraph-margin-top: 1em !default;

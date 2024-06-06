@@ -1,7 +1,7 @@
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const Sanitizer = require("../../uswds-core/src/js/utils/sanitizer");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import { Sanitizer } from "../../uswds-core/src/js/utils/sanitizer";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
 
 const DROPZONE_CLASS = `${PREFIX}-file-input`;
 const DROPZONE = `.${DROPZONE_CLASS}`;
@@ -18,6 +18,7 @@ const ACCEPTED_FILE_MESSAGE_CLASS = `${PREFIX}-file-input__accepted-files-messag
 const DRAG_TEXT_CLASS = `${PREFIX}-file-input__drag-text`;
 const DRAG_CLASS = `${PREFIX}-file-input--drag`;
 const LOADING_CLASS = "is-loading";
+const HIDDEN_CLASS = "display-none";
 const INVALID_FILE_CLASS = "has-invalid-file";
 const GENERIC_PREVIEW_CLASS_NAME = `${PREFIX}-file-input__preview-image`;
 const GENERIC_PREVIEW_CLASS = `${GENERIC_PREVIEW_CLASS_NAME}--generic`;
@@ -25,13 +26,10 @@ const PDF_PREVIEW_CLASS = `${GENERIC_PREVIEW_CLASS_NAME}--pdf`;
 const WORD_PREVIEW_CLASS = `${GENERIC_PREVIEW_CLASS_NAME}--word`;
 const VIDEO_PREVIEW_CLASS = `${GENERIC_PREVIEW_CLASS_NAME}--video`;
 const EXCEL_PREVIEW_CLASS = `${GENERIC_PREVIEW_CLASS_NAME}--excel`;
-const SR_ONLY_CLASS = `${PREFIX}-sr-only`;
 const SPACER_GIF =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 let TYPE_IS_VALID = Boolean(true); // logic gate for change listener
-let DEFAULT_ARIA_LABEL_TEXT = "";
-let DEFAULT_FILE_STATUS_TEXT = "";
 
 /**
  * The properties and elements within the file input.
@@ -72,17 +70,7 @@ const disable = (el) => {
 
   inputEl.disabled = true;
   dropZoneEl.classList.add(DISABLED_CLASS);
-};
-
-/**
- * Set aria-disabled attribute to file input component
- *
- * @param {HTMLElement} el An element within the file input component
- */
-const ariaDisable = (el) => {
-  const { dropZoneEl } = getFileInputContext(el);
-
-  dropZoneEl.classList.add(DISABLED_CLASS);
+  dropZoneEl.setAttribute("aria-disabled", "true");
 };
 
 /**
@@ -122,74 +110,55 @@ const createUniqueID = (name) =>
   `${name}-${Math.floor(Date.now().toString() / 1000)}`;
 
 /**
- * Determines if the singular or plural item label should be used
- * Determination is based on the presence of the `multiple` attribute
- *
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @returns {HTMLDivElement} The singular or plural version of "item"
+ * Builds full file input component
+ * @param {HTMLElement} fileInputEl - original file input on page
+ * @returns {HTMLElement|HTMLElement} - Instructions, target area div
  */
-const getItemsLabel = (fileInputEl) => {
+const buildFileInput = (fileInputEl) => {
   const acceptsMultiple = fileInputEl.hasAttribute("multiple");
-  const itemsLabel = acceptsMultiple ? "files" : "file";
-
-  return itemsLabel;
-};
-
-/**
- * Scaffold the file input component with a parent wrapper and
- * Create a target area overlay for drag and drop functionality
- *
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @returns {HTMLDivElement} The drag and drop target area.
- */
-const createTargetArea = (fileInputEl) => {
   const fileInputParent = document.createElement("div");
   const dropTarget = document.createElement("div");
   const box = document.createElement("div");
+  const instructions = document.createElement("div");
+  const disabled = fileInputEl.hasAttribute("disabled");
+  let defaultAriaLabel;
 
   // Adds class names and other attributes
   fileInputEl.classList.remove(DROPZONE_CLASS);
   fileInputEl.classList.add(INPUT_CLASS);
   fileInputParent.classList.add(DROPZONE_CLASS);
   box.classList.add(BOX_CLASS);
+  instructions.classList.add(INSTRUCTIONS_CLASS);
+  instructions.setAttribute("aria-hidden", "true");
   dropTarget.classList.add(TARGET_CLASS);
+  // Encourage screenreader to read out aria changes immediately following upload status change
+  fileInputEl.setAttribute("aria-live", "polite");
 
   // Adds child elements to the DOM
-  dropTarget.prepend(box);
   fileInputEl.parentNode.insertBefore(dropTarget, fileInputEl);
   fileInputEl.parentNode.insertBefore(fileInputParent, dropTarget);
   dropTarget.appendChild(fileInputEl);
   fileInputParent.appendChild(dropTarget);
-
-  return dropTarget;
-};
-
-/**
- * Build the visible element with default interaction instructions.
- *
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @returns {HTMLDivElement} The container for visible interaction instructions.
- */
-const createVisibleInstructions = (fileInputEl) => {
-  const fileInputParent = fileInputEl.closest(DROPZONE);
-  const itemsLabel = getItemsLabel(fileInputEl);
-  const instructions = document.createElement("div");
-  const dragText = `Drag ${itemsLabel} here or`;
-  const chooseText = "choose from folder";
-
-  // Create instructions text for aria-label
-  DEFAULT_ARIA_LABEL_TEXT = `${dragText} ${chooseText}`;
-
-  // Adds class names and other attributes
-  instructions.classList.add(INSTRUCTIONS_CLASS);
-  instructions.setAttribute("aria-hidden", "true");
-
-  // Add initial instructions for input usage
-  fileInputEl.setAttribute("aria-label", DEFAULT_ARIA_LABEL_TEXT);
-  instructions.innerHTML = Sanitizer.escapeHTML`<span class="${DRAG_TEXT_CLASS}">${dragText}</span> <span class="${CHOOSE_CLASS}">${chooseText}</span>`;
-
-  // Add the instructions element to the DOM
   fileInputEl.parentNode.insertBefore(instructions, fileInputEl);
+  fileInputEl.parentNode.insertBefore(box, fileInputEl);
+
+  // Disabled styling
+  if (disabled) {
+    disable(fileInputEl);
+  }
+
+  // Sets instruction test and aria-label based on whether or not multiple files are accepted
+  if (acceptsMultiple) {
+    defaultAriaLabel = "No files selected";
+    instructions.innerHTML = Sanitizer.escapeHTML`<span class="${DRAG_TEXT_CLASS}">Drag files here or </span><span class="${CHOOSE_CLASS}">choose from folder</span>`;
+    fileInputEl.setAttribute("aria-label", defaultAriaLabel);
+    fileInputEl.setAttribute("data-default-aria-label", defaultAriaLabel);
+  } else {
+    defaultAriaLabel = "No file selected";
+    instructions.innerHTML = Sanitizer.escapeHTML`<span class="${DRAG_TEXT_CLASS}">Drag file here or </span><span class="${CHOOSE_CLASS}">choose from folder</span>`;
+    fileInputEl.setAttribute("aria-label", defaultAriaLabel);
+    fileInputEl.setAttribute("data-default-aria-label", defaultAriaLabel);
+  }
 
   // IE11 and Edge do not support drop files on file inputs, so we've removed text that indicates that
   if (
@@ -199,70 +168,22 @@ const createVisibleInstructions = (fileInputEl) => {
     fileInputParent.querySelector(`.${DRAG_TEXT_CLASS}`).outerHTML = "";
   }
 
-  return instructions;
-};
-
-/**
- * Build a screen reader-only message element that contains file status updates and
- * Create and set the default file status message
- *
- * @param {HTMLInputElement} fileInputEl - The input element.
- */
-const createSROnlyStatus = (fileInputEl) => {
-  const statusEl = document.createElement("div");
-  const itemsLabel = getItemsLabel(fileInputEl);
-  const fileInputParent = fileInputEl.closest(DROPZONE);
-  const fileInputTarget = fileInputEl.closest(`.${TARGET_CLASS}`);
-
-  DEFAULT_FILE_STATUS_TEXT = `No ${itemsLabel} selected.`;
-
-  // Adds class names and other attributes
-  statusEl.classList.add(SR_ONLY_CLASS);
-  statusEl.setAttribute("aria-live", "polite");
-
-  // Add initial file status message
-  statusEl.textContent = DEFAULT_FILE_STATUS_TEXT;
-
-  // Add the status element to the DOM
-  fileInputParent.insertBefore(statusEl, fileInputTarget);
-};
-
-/**
- * Scaffold the component with all required elements
- *
- * @param {HTMLInputElement} fileInputEl - The original input element.
- */
-const enhanceFileInput = (fileInputEl) => {
-  const isInputDisabled =
-    fileInputEl.hasAttribute("aria-disabled") ||
-    fileInputEl.hasAttribute("disabled");
-  const dropTarget = createTargetArea(fileInputEl);
-  const instructions = createVisibleInstructions(fileInputEl);
-  const { dropZoneEl } = getFileInputContext(fileInputEl);
-
-  if (isInputDisabled) {
-    dropZoneEl.classList.add(DISABLED_CLASS);
-  } else {
-    createSROnlyStatus(fileInputEl);
-  }
-
   return { instructions, dropTarget };
 };
 
 /**
- * Removes image previews
- * We want to start with a clean list every time files are added to the file input
- *
- * @param {HTMLDivElement} dropTarget - The drag and drop target area.
- * @param {HTMLDivElement} instructions - The container for visible interaction instructions.
+ * Removes image previews, we want to start with a clean list every time files are added to the file input
+ * @param {HTMLElement} dropTarget - target area div that encases the input
+ * @param {HTMLElement} instructions - text to inform users to drag or select files
  */
-const removeOldPreviews = (dropTarget, instructions) => {
+const removeOldPreviews = (dropTarget, instructions, inputAriaLabel) => {
   const filePreviews = dropTarget.querySelectorAll(`.${PREVIEW_CLASS}`);
+  const fileInputElement = dropTarget.querySelector(INPUT);
   const currentPreviewHeading = dropTarget.querySelector(
-    `.${PREVIEW_HEADING_CLASS}`,
+    `.${PREVIEW_HEADING_CLASS}`
   );
   const currentErrorMessage = dropTarget.querySelector(
-    `.${ACCEPTED_FILE_MESSAGE_CLASS}`,
+    `.${ACCEPTED_FILE_MESSAGE_CLASS}`
   );
 
   /**
@@ -287,116 +208,74 @@ const removeOldPreviews = (dropTarget, instructions) => {
   // Get rid of existing previews if they exist, show instructions
   if (filePreviews !== null) {
     if (instructions) {
-      instructions.removeAttribute("hidden");
+      instructions.classList.remove(HIDDEN_CLASS);
     }
+    fileInputElement.setAttribute("aria-label", inputAriaLabel);
     Array.prototype.forEach.call(filePreviews, removeImages);
   }
 };
 
 /**
- * Update the screen reader-only status message after interaction
- *
- * @param {HTMLDivElement} statusElement - The screen reader-only container for file status updates.
- * @param {Object} fileNames - The selected files found in the fileList object.
- * @param {Array} fileStore - The array of uploaded file names created from the fileNames object.
- */
-const updateStatusMessage = (statusElement, fileNames, fileStore) => {
-  const statusEl = statusElement;
-  let statusMessage = DEFAULT_FILE_STATUS_TEXT;
-
-  // If files added, update the status message with file name(s)
-  if (fileNames.length === 1) {
-    statusMessage = `You have selected the file: ${fileStore}`;
-  } else if (fileNames.length > 1) {
-    statusMessage = `You have selected ${
-      fileNames.length
-    } files: ${fileStore.join(", ")}`;
-  }
-
-  // Add delay to encourage screen reader readout
-  setTimeout(() => {
-    statusEl.textContent = statusMessage;
-  }, 1000);
-};
-
-/**
- * Show the preview heading, hide the initial instructions and
- * Update the aria-label with new instructions text
- *
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @param {Object} fileNames - The selected files found in the fileList object.
- */
-const addPreviewHeading = (fileInputEl, fileNames) => {
-  const filePreviewsHeading = document.createElement("div");
-  const dropTarget = fileInputEl.closest(`.${TARGET_CLASS}`);
-  const instructions = dropTarget.querySelector(`.${INSTRUCTIONS_CLASS}`);
-  let changeItemText = "Change file";
-  let previewHeadingText = "";
-
-  if (fileNames.length === 1) {
-    previewHeadingText = Sanitizer.escapeHTML`Selected file <span class="usa-file-input__choose">${changeItemText}</span>`;
-  } else if (fileNames.length > 1) {
-    changeItemText = "Change files";
-    previewHeadingText = Sanitizer.escapeHTML`${fileNames.length} files selected <span class="usa-file-input__choose">${changeItemText}</span>`;
-  }
-
-  // Hides null state content and sets preview heading
-  instructions.setAttribute("hidden", "true");
-  filePreviewsHeading.classList.add(PREVIEW_HEADING_CLASS);
-  filePreviewsHeading.innerHTML = previewHeadingText;
-  dropTarget.insertBefore(filePreviewsHeading, instructions);
-
-  // Update aria label to match the visible action text
-  fileInputEl.setAttribute("aria-label", changeItemText);
-};
-
-/**
  * When new files are applied to file input, this function generates previews
  * and removes old ones.
- *
  * @param {event} e
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @param {HTMLDivElement} instructions - The container for visible interaction instructions.
- * @param {HTMLDivElement} dropTarget - The drag and drop target area.
+ * @param {HTMLElement} fileInputEl - file input element
+ * @param {HTMLElement} instructions - text to inform users to drag or select files
+ * @param {HTMLElement} dropTarget - target area div that encases the input
  */
 
 const handleChange = (e, fileInputEl, instructions, dropTarget) => {
   const fileNames = e.target.files;
-  const inputParent = dropTarget.closest(`.${DROPZONE_CLASS}`);
-  const statusElement = inputParent.querySelector(`.${SR_ONLY_CLASS}`);
+  const filePreviewsHeading = document.createElement("div");
+  const inputAriaLabel = fileInputEl.dataset.defaultAriaLabel;
   const fileStore = [];
 
   // First, get rid of existing previews
-  removeOldPreviews(dropTarget, instructions);
+  removeOldPreviews(dropTarget, instructions, inputAriaLabel);
 
-  // Then, iterate through files list and create previews
+  // Then, iterate through files list and:
+  // 1. Add selected file list names to aria-label
+  // 2. Create previews
   for (let i = 0; i < fileNames.length; i += 1) {
     const reader = new FileReader();
     const fileName = fileNames[i].name;
-    let imageId;
 
     // Push updated file names into the store array
     fileStore.push(fileName);
 
+    // read out the store array via aria-label, wording options vary based on file count
+    if (i === 0) {
+      fileInputEl.setAttribute(
+        "aria-label",
+        `You have selected the file: ${fileName}`
+      );
+    } else if (i >= 1) {
+      fileInputEl.setAttribute(
+        "aria-label",
+        `You have selected ${fileNames.length} files: ${fileStore.join(", ")}`
+      );
+    }
+
     // Starts with a loading image while preview is created
     reader.onloadstart = function createLoadingImage() {
-      imageId = createUniqueID(makeSafeForID(fileName));
+      const imageId = createUniqueID(makeSafeForID(fileName));
 
       instructions.insertAdjacentHTML(
         "afterend",
         Sanitizer.escapeHTML`<div class="${PREVIEW_CLASS}" aria-hidden="true">
           <img id="${imageId}" src="${SPACER_GIF}" alt="" class="${GENERIC_PREVIEW_CLASS_NAME} ${LOADING_CLASS}"/>${fileName}
-        <div>`,
+        <div>`
       );
     };
 
     // Not all files will be able to generate previews. In case this happens, we provide several types "generic previews" based on the file extension.
     reader.onloadend = function createFilePreview() {
+      const imageId = createUniqueID(makeSafeForID(fileName));
       const previewImage = document.getElementById(imageId);
       if (fileName.indexOf(".pdf") > 0) {
         previewImage.setAttribute(
           "onerror",
-          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${PDF_PREVIEW_CLASS}")`,
+          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${PDF_PREVIEW_CLASS}")`
         );
       } else if (
         fileName.indexOf(".doc") > 0 ||
@@ -404,7 +283,7 @@ const handleChange = (e, fileInputEl, instructions, dropTarget) => {
       ) {
         previewImage.setAttribute(
           "onerror",
-          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${WORD_PREVIEW_CLASS}")`,
+          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${WORD_PREVIEW_CLASS}")`
         );
       } else if (
         fileName.indexOf(".xls") > 0 ||
@@ -412,17 +291,17 @@ const handleChange = (e, fileInputEl, instructions, dropTarget) => {
       ) {
         previewImage.setAttribute(
           "onerror",
-          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${EXCEL_PREVIEW_CLASS}")`,
+          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${EXCEL_PREVIEW_CLASS}")`
         );
       } else if (fileName.indexOf(".mov") > 0 || fileName.indexOf(".mp4") > 0) {
         previewImage.setAttribute(
           "onerror",
-          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${VIDEO_PREVIEW_CLASS}")`,
+          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${VIDEO_PREVIEW_CLASS}")`
         );
       } else {
         previewImage.setAttribute(
           "onerror",
-          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${GENERIC_PREVIEW_CLASS}")`,
+          `this.onerror=null;this.src="${SPACER_GIF}"; this.classList.add("${GENERIC_PREVIEW_CLASS}")`
         );
       }
 
@@ -434,16 +313,24 @@ const handleChange = (e, fileInputEl, instructions, dropTarget) => {
     if (fileNames[i]) {
       reader.readAsDataURL(fileNames[i]);
     }
-  }
 
-  if (fileNames.length === 0) {
-    // Reset input aria-label with default message
-    fileInputEl.setAttribute("aria-label", DEFAULT_ARIA_LABEL_TEXT);
-  } else {
-    addPreviewHeading(fileInputEl, fileNames);
-  }
+    // Adds heading above file previews, pluralizes if there are multiple
+    if (i === 0) {
+      dropTarget.insertBefore(filePreviewsHeading, instructions);
+      filePreviewsHeading.innerHTML = `Selected file <span class="usa-file-input__choose">Change file</span>`;
+    } else if (i >= 1) {
+      dropTarget.insertBefore(filePreviewsHeading, instructions);
+      filePreviewsHeading.innerHTML = Sanitizer.escapeHTML`${
+        i + 1
+      } files selected <span class="usa-file-input__choose">Change files</span>`;
+    }
 
-  updateStatusMessage(statusElement, fileNames, fileStore);
+    // Hides null state content and sets preview heading class
+    if (filePreviewsHeading) {
+      instructions.classList.add(HIDDEN_CLASS);
+      filePreviewsHeading.classList.add(PREVIEW_HEADING_CLASS);
+    }
+  }
 };
 
 /**
@@ -451,11 +338,10 @@ const handleChange = (e, fileInputEl, instructions, dropTarget) => {
  * file browser, but they can still be dragged to the input. This
  * function prevents them from being dragged and removes error states
  * when correct files are added.
- *
  * @param {event} e
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @param {HTMLDivElement} instructions - The container for visible interaction instructions.
- * @param {HTMLDivElement} dropTarget - The drag and drop target area.
+ * @param {HTMLElement} fileInputEl - file input element
+ * @param {HTMLElement} instructions - text to inform users to drag or select files
+ * @param {HTMLElement} dropTarget - target area div that encases the input
  */
 const preventInvalidFiles = (e, fileInputEl, instructions, dropTarget) => {
   const acceptedFilesAttr = fileInputEl.getAttribute("accept");
@@ -523,16 +409,15 @@ const preventInvalidFiles = (e, fileInputEl, instructions, dropTarget) => {
 /**
  * 1. passes through gate for preventing invalid files
  * 2. handles updates if file is valid
- *
  * @param {event} event
- * @param {HTMLInputElement} fileInputEl - The input element.
- * @param {HTMLDivElement} instructions - The container for visible interaction instructions.
- * @param {HTMLDivElement} dropTarget - The drag and drop target area.
+ * @param {HTMLElement} element
+ * @param {HTMLElement} instructionsEl
+ * @param {HTMLElement} target
  */
-const handleUpload = (event, fileInputEl, instructions, dropTarget) => {
-  preventInvalidFiles(event, fileInputEl, instructions, dropTarget);
+const handleUpload = (event, element, instructionsEl, dropTargetEl) => {
+  preventInvalidFiles(event, element, instructionsEl, dropTargetEl);
   if (TYPE_IS_VALID === true) {
-    handleChange(event, fileInputEl, instructions, dropTarget);
+    handleChange(event, element, instructionsEl, dropTargetEl);
   }
 };
 
@@ -541,14 +426,14 @@ const fileInput = behavior(
   {
     init(root) {
       selectOrMatches(DROPZONE, root).forEach((fileInputEl) => {
-        const { instructions, dropTarget } = enhanceFileInput(fileInputEl);
+        const { instructions, dropTarget } = buildFileInput(fileInputEl);
 
         dropTarget.addEventListener(
           "dragover",
           function handleDragOver() {
             this.classList.add(DRAG_CLASS);
           },
-          false,
+          false
         );
 
         dropTarget.addEventListener(
@@ -556,7 +441,7 @@ const fileInput = behavior(
           function handleDragLeave() {
             this.classList.remove(DRAG_CLASS);
           },
-          false,
+          false
         );
 
         dropTarget.addEventListener(
@@ -564,32 +449,28 @@ const fileInput = behavior(
           function handleDrop() {
             this.classList.remove(DRAG_CLASS);
           },
-          false,
+          false
         );
 
         fileInputEl.addEventListener(
           "change",
           (e) => handleUpload(e, fileInputEl, instructions, dropTarget),
-          false,
+          false
         );
       });
     },
     teardown(root) {
       selectOrMatches(INPUT, root).forEach((fileInputEl) => {
         const fileInputTopElement = fileInputEl.parentElement.parentElement;
-        fileInputTopElement.parentElement.replaceChild(
-          fileInputEl,
-          fileInputTopElement,
-        );
+        fileInputTopElement.parentElement.replaceChild(fileInputEl, fileInputTopElement);
         // eslint-disable-next-line no-param-reassign
         fileInputEl.className = DROPZONE_CLASS;
       });
     },
     getFileInputContext,
     disable,
-    ariaDisable,
     enable,
-  },
+  }
 );
 
-module.exports = fileInput;
+export default fileInput;

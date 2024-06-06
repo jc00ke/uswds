@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .float-left {
-    float: left;
-  }
+    float: left; }
 ----------------------------------------
 */
 
@@ -24,7 +23,7 @@ $u-float: (
     base: "float",
     modifiers: null,
     values: map-collect(get-palettes($float-palettes), $float-manual-values),
-    settings: $float-settings-complete,
+    settings: $float-settings,
     property: "float",
     type: "utility",
   ),

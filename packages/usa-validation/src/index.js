@@ -1,10 +1,9 @@
-const behavior = require("../../uswds-core/src/js/utils/behavior");
-const validate = require("../../uswds-core/src/js/utils/validate-input");
-const { prefix: PREFIX } = require("../../uswds-core/src/js/config");
-const selectOrMatches = require("../../uswds-core/src/js/utils/select-or-matches");
+import behavior  from "../../uswds-core/src/js/utils/behavior";
+import validate from "../../uswds-core/src/js/utils/validate-input";
+import { prefix as PREFIX } from "../../uswds-core/src/js/config";
+import selectOrMatches from "../../uswds-core/src/js/utils/select-or-matches";
 
-const VALIDATE_INPUT =
-  "input[data-validation-element],textarea[data-validation-element]";
+const VALIDATE_INPUT = "input[data-validation-element]";
 const CHECKLIST_ITEM = `.${PREFIX}-checklist__item`;
 
 // Trigger validation on input change
@@ -41,6 +40,7 @@ const createInitialStatus = (input) => {
       currentStatus = input.getAttribute("data-validation-incomplete");
     }
     const itemStatus = `${listItem.textContent} ${currentStatus} `;
+    listItem.setAttribute("tabindex", "0");
     listItem.setAttribute("aria-label", itemStatus);
   });
 };
@@ -61,10 +61,10 @@ const validator = behavior(
   {
     init(root) {
       selectOrMatches(VALIDATE_INPUT, root).forEach((input) =>
-        enhanceValidation(input),
+        enhanceValidation(input)
       );
     },
-  },
+  }
 );
 
-module.exports = validator;
+export default validator;

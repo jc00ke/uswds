@@ -1,4 +1,6 @@
 {
   "modifier": "usa-button--big",
-  "text": "Big button"
+  "text": "Big button",
+  "is_demo": true,
+  "aria_disabled": false
 }

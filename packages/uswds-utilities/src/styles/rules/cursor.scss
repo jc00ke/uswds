@@ -1,6 +1,6 @@
 /*
 ========================================
-cursor
+color
 ----------------------------------------
 usage:
   .cursor-[key]
@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .cursor-pointer {
-    cursor: pointer;
-  }
+    cursor: pointer; }
 ----------------------------------------
 */
 
@@ -24,7 +23,7 @@ $u-cursor: (
     base: "cursor",
     modifiers: null,
     values: map-collect(get-palettes($cursor-palettes), $cursor-manual-values),
-    settings: $cursor-settings-complete,
+    settings: $cursor-settings,
     property: "cursor",
     type: "utility",
   ),

@@ -6,7 +6,6 @@
       "label": "Menu"
     },
     "aria_label": "Primary navigation",
-    "megamenu": false,
     "items": [
       {
         "label": "<Current section>",

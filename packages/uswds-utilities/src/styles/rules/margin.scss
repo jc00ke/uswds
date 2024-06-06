@@ -6,17 +6,15 @@ usage:
   .margin-[modifier]*-[key]
 ----------------------------------------
 output:
-  margin: [value];
+  margin: [value]
 ----------------------------------------
 example:
   .margin-x-auto {
     margin-left: auto;
-    margin-right: auto;
-  }
+    margin-right: auto; }
 
-  .margin-105 {
-    margin: .75rem;
-  }
+  .margin-g105 {
+    margin: .75rem; }
 ----------------------------------------
 */
 
@@ -31,7 +29,7 @@ $u-margin: (
       noModifier: "",
     ),
     values: map-collect(get-palettes($margin-palettes), $margin-manual-values),
-    settings: $margin-settings-complete,
+    settings: $margin-settings,
     property: "margin",
     type: "utility",
   ),
@@ -50,7 +48,7 @@ $u-margin: (
         get-palettes($margin-vertical-palettes),
         $margin-manual-values
       ),
-    settings: $margin-settings-complete,
+    settings: $margin-settings,
     property: "margin",
     type: "utility",
   ),
@@ -69,7 +67,7 @@ $u-margin: (
         get-palettes($margin-horizontal-palettes),
         $margin-manual-values
       ),
-    settings: $margin-settings-complete,
+    settings: $margin-settings,
     property: "margin",
     type: "utility",
   ),

@@ -3,21 +3,16 @@
 PIN
 ----------------------------------------
 usage:
-  .pin-[key]
+  .pin-all
+----------------------------------------
+output:
+  bottom: 0
+  left:0
+  right: 0
+  top: 0
 ----------------------------------------
 example:
-  .pin-all {
-    bottom:0;
-    left:0;
-    right:0;
-    top:0;
-    position:absolute;
-  }
-
-  .pin-left {
-    left:0;
-    position:absolute;
-  }
+  .pin-all
 ----------------------------------------
 */
 
@@ -102,7 +97,7 @@ $u-pin: (
         ),
       ),
     ),
-    settings: $pin-settings-complete,
+    settings: $pin-settings,
     property: "position",
     type: "utility",
   ),

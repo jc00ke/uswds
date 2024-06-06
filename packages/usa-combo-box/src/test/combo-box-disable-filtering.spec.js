@@ -5,18 +5,15 @@ const ComboBox = require("../index");
 const EVENTS = require("./events");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/combo-box-disable-filtering.template.html"),
+  path.join(__dirname, "/combo-box-disable-filtering.template.html")
 );
 
 const tests = [
   { name: "document.body", selector: () => document.body },
-  {
-    name: "combo box",
-    selector: () => document.querySelector(".usa-combo-box"),
-  },
+  { name: "combo box", selector: () => document.querySelector(".usa-combo-box") }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`Combo box initialized at ${name}`, () => {
     describe("combo box component with disable filtering attribute", () => {
       const { body } = document;
@@ -46,18 +43,18 @@ tests.forEach(({ name, selector: containerSelector }) => {
         EVENTS.input(input);
 
         const focusedOption = list.querySelector(
-          ".usa-combo-box__list-option--focused",
+          ".usa-combo-box__list-option--focused"
         );
         assert.ok(!list.hidden, "should show the option list");
         assert.strictEqual(
           list.children.length,
           select.options.length - 1,
-          "should have all of the initial select items in the list except placeholder empty items",
+          "should have all of the initial select items in the list except placeholder empty items"
         );
         assert.strictEqual(
           focusedOption.textContent,
           "Blood orange",
-          "should be the first found item",
+          "should be the first found item"
         );
       });
     });

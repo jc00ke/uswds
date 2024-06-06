@@ -231,7 +231,7 @@ $z-index-overlay: 400;
     @include at-media($theme-header-min-width) {
       font-size: font-size($theme-header-font-family, "xl");
       margin: units(4) 0 units(3);
-      max-width: $theme-header-logo-text-width;
+      max-width: 50%;
     }
   }
 
@@ -284,7 +284,6 @@ $z-index-overlay: 400;
     @include at-media($theme-header-min-width) {
       left: 0;
       padding-left: units($theme-site-margins-width);
-      padding-right: units($theme-site-margins-width);
     }
   }
 }

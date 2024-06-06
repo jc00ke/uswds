@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .border-top-width-1px {
-    border-top-width: 1px;
-  }
+    border-top-width: 1px; }
 ----------------------------------------
 */
 
@@ -42,7 +41,7 @@ $u-border-width: (
         get-palettes($border-width-palettes),
         $border-width-manual-values
       ),
-    settings: $border-width-settings-complete,
+    settings: $border-width-settings,
     property: "border",
     type: "utility",
   ),

@@ -6,12 +6,11 @@ usage:
   .text-indent-[key]
 ----------------------------------------
 output:
-  text-indent: [value];
+  align: [value];
 ----------------------------------------
 example:
   .text-indent-0 {
-    text-ident: 0;
-  }
+    text-ident: 0; }
 ----------------------------------------
 */
 
@@ -28,7 +27,7 @@ $u-text-indent: (
         get-palettes($text-indent-palettes),
         $text-indent-manual-values
       ),
-    settings: $text-indent-settings-complete,
+    settings: $text-indent-settings,
     property: "text-indent",
     type: "utility",
   ),

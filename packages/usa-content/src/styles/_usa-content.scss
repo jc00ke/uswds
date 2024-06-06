@@ -7,3 +7,7 @@
     max-width: measure($theme-text-measure);
   }
 }
+
+%usa-heading {
+  @include typeset-heading;
+}

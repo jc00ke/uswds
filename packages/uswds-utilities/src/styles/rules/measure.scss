@@ -12,8 +12,7 @@ output:
 ----------------------------------------
 example:
   .measure-4 {
-    max-width: 68ex;
-  }
+    max-width: 68ex; }
 ----------------------------------------
 */
 
@@ -26,7 +25,7 @@ $u-measure: (
     base: "measure",
     modifiers: null,
     values: map-collect(get-palettes($measure-palettes), $measure-manual-values),
-    settings: $measure-settings-complete,
+    settings: $measure-settings,
     property: "max-width",
     type: "utility",
   ),

@@ -9,8 +9,7 @@ example:
   .clearfix::after {
     clear: both;
     content: "";
-    display: block;
-  }
+    display: block; }
 ----------------------------------------
 */
 
@@ -31,7 +30,7 @@ $u-clearfix: (
         ),
       ),
     ),
-    settings: $clearfix-settings-complete,
+    settings: $clearfix-settings,
     property: "clear",
     type: "utility",
   ),

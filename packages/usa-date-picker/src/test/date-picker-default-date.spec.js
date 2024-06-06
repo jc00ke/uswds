@@ -5,16 +5,16 @@ const EVENTS = require("./events");
 const DatePicker = require("../index");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/date-picker-default-date.template.html"),
+  path.join(__dirname, "/date-picker-default-date.template.html")
 );
 
-const datePickerSelector = () => document.querySelector(".usa-date-picker");
+const datePickerSelector = () => document.querySelector('.usa-date-picker');
 const tests = [
   { name: "document.body", selector: () => document.body },
-  { name: "date picker", selector: datePickerSelector },
+  { name: "date picker", selector: datePickerSelector }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`date picker component with default date initialized at ${name}`, () => {
     const { body } = document;
 
@@ -23,7 +23,7 @@ tests.forEach(({ name, selector: containerSelector }) => {
     let button;
     const getCalendarEl = (query) =>
       root.querySelector(
-        `.usa-date-picker__calendar${query ? ` ${query}` : ""}`,
+        `.usa-date-picker__calendar${query ? ` ${query}` : ""}`
       );
 
     beforeEach(() => {
@@ -45,16 +45,11 @@ tests.forEach(({ name, selector: containerSelector }) => {
 
       EVENTS.click(button);
 
+      assert.strictEqual(getCalendarEl().hidden, false, "The calendar is shown");
       assert.strictEqual(
-        getCalendarEl().hidden,
-        false,
-        "The calendar is shown",
-      );
-      assert.strictEqual(
-        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset
-          .value,
+        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset.value,
         "2020-06-20",
-        "focuses correct date",
+        "focuses correct date"
       );
     });
 
@@ -63,16 +58,11 @@ tests.forEach(({ name, selector: containerSelector }) => {
 
       EVENTS.click(button);
 
+      assert.strictEqual(getCalendarEl().hidden, false, "The calendar is shown");
       assert.strictEqual(
-        getCalendarEl().hidden,
-        false,
-        "The calendar is shown",
-      );
-      assert.strictEqual(
-        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset
-          .value,
+        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset.value,
         "2020-05-22",
-        "focuses correct date",
+        "focuses correct date"
       );
     });
 
@@ -81,16 +71,11 @@ tests.forEach(({ name, selector: containerSelector }) => {
 
       EVENTS.click(button);
 
+      assert.strictEqual(getCalendarEl().hidden, false, "The calendar is shown");
       assert.strictEqual(
-        getCalendarEl().hidden,
-        false,
-        "The calendar is shown",
-      );
-      assert.strictEqual(
-        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset
-          .value,
+        getCalendarEl(".usa-date-picker__calendar__date--focused").dataset.value,
         "2020-05-22",
-        "focuses correct date",
+        "focuses correct date"
       );
     });
   });

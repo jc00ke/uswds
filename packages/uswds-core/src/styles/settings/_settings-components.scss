@@ -18,10 +18,8 @@ https://designsystem.digital.gov/design-tokens
 */
 
 // Accordion
-$theme-accordion-background-color: "default" !default;
-$theme-accordion-border-color: "base-lightest" !default;
 $theme-accordion-border-width: 0.5 !default;
-$theme-accordion-button-background-color: "base-lightest" !default;
+$theme-accordion-border-color: "base-lightest" !default;
 $theme-accordion-font-family: "body" !default;
 
 // Alert
@@ -53,9 +51,8 @@ $theme-breadcrumb-padding-x: 0 !default;
 $theme-breadcrumb-separator-color: "base" !default;
 
 // Button
-$theme-button-border-radius: "md" !default;
 $theme-button-font-family: "ui" !default;
-$theme-button-icon-gap: 1 !default;
+$theme-button-border-radius: "md" !default;
 $theme-button-small-width: 6 !default;
 $theme-button-stroke-width: 2px !default;
 
@@ -126,10 +123,6 @@ $theme-in-page-nav-margin-left: 4 !default;
 $theme-in-page-nav-margin-top: 2.5 !default;
 $theme-in-page-nav-top: 4 !default;
 
-// Link
-$theme-external-link-sr-label-tab-new: "External, opens in a new tab." !default;
-$theme-external-link-sr-label-tab-same: "External." !default;
-
 // Modal
 $theme-modal-border-radius: "lg" !default;
 $theme-modal-default-max-width: "mobile-lg" !default;
@@ -172,7 +165,6 @@ $theme-search-min-width: 27ch !default;
 // Sidenav
 $theme-sidenav-current-border-width: 0.5 !default;
 $theme-sidenav-font-family: "ui" !default;
-$theme-sidenav-reorder: false !default;
 
 // Site Alert
 $theme-site-alert-max-width: "desktop" !default;
@@ -188,7 +180,7 @@ $theme-step-indicator-heading-font-size: "lg" !default;
 $theme-step-indicator-heading-font-size-small: "md" !default;
 $theme-step-indicator-label-font-size: "sm" !default;
 $theme-step-indicator-min-width: "tablet" !default;
-$theme-step-indicator-segment-color-pending: "gray-40" !default;
+$theme-step-indicator-segment-color-pending: "base-lighter" !default;
 $theme-step-indicator-segment-color-complete: "primary-darker" !default;
 $theme-step-indicator-segment-color-current: "primary" !default;
 $theme-step-indicator-segment-gap: 2px !default;
@@ -205,7 +197,6 @@ $theme-summary-box-link-color: default !default;
 $theme-summary-box-text-color: default !default;
 
 // Table
-$theme-table-background-color: default !default;
 $theme-table-border-color: "ink" !default;
 $theme-table-header-background-color: "base-lighter" !default;
 $theme-table-header-text-color: default !default;
@@ -216,7 +207,6 @@ $theme-table-sorted-header-background-color: "accent-cool-light" !default;
 $theme-table-sorted-background-color: "accent-cool-lighter" !default;
 $theme-table-sorted-stripe-background-color: "blue-cool-10v" !default;
 $theme-table-sorted-icon-color: default !default;
-$theme-table-sticky-top-offset: -1px !default;
 $theme-table-unsorted-icon-color: "base" !default;
 
 // Tooltips

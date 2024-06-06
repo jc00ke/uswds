@@ -3,15 +3,14 @@
 height
 ----------------------------------------
 usage:
-  .height-[key]
+  .height-[value]
 ----------------------------------------
 output:
   height: [value];
 ----------------------------------------
 example:
-  .height-6 {
-    height: 3rem;
-  }
+  .height-33ct {
+    height: 33.33333333%; }
 ----------------------------------------
 */
 
@@ -24,7 +23,7 @@ $u-height: (
     base: "height",
     modifiers: null,
     values: map-collect(get-palettes($height-palettes), $height-manual-values),
-    settings: $height-settings-complete,
+    settings: $height-settings,
     property: "height",
     type: "utility",
   ),

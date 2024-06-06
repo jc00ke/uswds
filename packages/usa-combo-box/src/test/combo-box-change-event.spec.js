@@ -6,18 +6,15 @@ const ComboBox = require("../index");
 const EVENTS = require("./events");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/combo-box-change-event.template.html"),
+  path.join(__dirname, "/combo-box-change-event.template.html")
 );
 
 const tests = [
   { name: "document.body", selector: () => document.body },
-  {
-    name: "combo box",
-    selector: () => document.querySelector(".usa-combo-box"),
-  },
+  { name: "combo box", selector: () => document.querySelector(".usa-combo-box") }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`Combo box initialized at ${name}`, () => {
     describe("combo box component change event dispatch", () => {
       const { body } = document;
@@ -65,21 +62,21 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           select.value,
           "apple",
-          "should set that item to being the select option",
+          "should set that item to being the select option"
         );
         assert.strictEqual(
           input.value,
           "Apple",
-          "should set that item to being the input value",
+          "should set that item to being the input value"
         );
 
         assert.ok(
           selectChangeSpy.called,
-          "should have dispatched a change event from the select",
+          "should have dispatched a change event from the select"
         );
         assert.ok(
           inputChangeSpy.called,
-          "should have dispatched a change event from the input",
+          "should have dispatched a change event from the input"
         );
       });
 
@@ -95,16 +92,13 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           input.value,
           "Apple",
-          "should reset the value on the input",
+          "should reset the value on the input"
         );
         assert.ok(
           selectChangeSpy.notCalled,
-          "should not have dispatched a change event",
+          "should not have dispatched a change event"
         );
-        assert.ok(
-          inputChangeSpy.called,
-          "should have dispatched a change event",
-        );
+        assert.ok(inputChangeSpy.called, "should have dispatched a change event");
       });
 
       it("should emit change events when closing the list but not the clear the input value when escape is performed while the list is open", () => {
@@ -118,21 +112,18 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           select.value,
           "apple",
-          "should not change the value of the select",
+          "should not change the value of the select"
         );
         assert.strictEqual(
           input.value,
           "Apple",
-          "should reset the value in the input",
+          "should reset the value in the input"
         );
         assert.ok(
           selectChangeSpy.notCalled,
-          "should not have dispatched a change event",
+          "should not have dispatched a change event"
         );
-        assert.ok(
-          inputChangeSpy.called,
-          "should have dispatched a change event",
-        );
+        assert.ok(inputChangeSpy.called, "should have dispatched a change event");
       });
 
       it("should emit change events when setting the input value when a complete selection is submitted by pressing enter", () => {
@@ -146,21 +137,15 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           select.value,
           "fig",
-          "should set that item to being the select option",
+          "should set that item to being the select option"
         );
         assert.strictEqual(
           input.value,
           "Fig",
-          "should set that item to being the input value",
+          "should set that item to being the input value"
         );
-        assert.ok(
-          selectChangeSpy.called,
-          "should have dispatched a change event",
-        );
-        assert.ok(
-          inputChangeSpy.called,
-          "should have dispatched a change event",
-        );
+        assert.ok(selectChangeSpy.called, "should have dispatched a change event");
+        assert.ok(inputChangeSpy.called, "should have dispatched a change event");
       });
 
       it("should emit change events when selecting the focused list item in the list when pressing enter on a focused item", () => {
@@ -173,28 +158,22 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           focusedOption.textContent,
           "Lemon",
-          "should focus the first item in the list",
+          "should focus the first item in the list"
         );
         EVENTS.keydownEnter(focusedOption);
 
         assert.strictEqual(
           select.value,
           "lemon",
-          "select the first item in the list",
+          "select the first item in the list"
         );
         assert.strictEqual(
           input.value,
           "Lemon",
-          "should set the value in the input",
+          "should set the value in the input"
         );
-        assert.ok(
-          selectChangeSpy.called,
-          "should have dispatched a change event",
-        );
-        assert.ok(
-          inputChangeSpy.called,
-          "should have dispatched a change event",
-        );
+        assert.ok(selectChangeSpy.called, "should have dispatched a change event");
+        assert.ok(inputChangeSpy.called, "should have dispatched a change event");
       });
 
       it("should emit change events when pressing escape from a focused item", () => {
@@ -204,14 +183,14 @@ tests.forEach(({ name, selector: containerSelector }) => {
         EVENTS.input(input);
         assert.ok(
           !list.hidden && list.children.length,
-          "should display the option list with options",
+          "should display the option list with options"
         );
         EVENTS.keydownArrowDown(input);
         const focusedOption = document.activeElement;
         assert.strictEqual(
           focusedOption.textContent,
           "Honeydew melon",
-          "should focus the first item in the list",
+          "should focus the first item in the list"
         );
         EVENTS.keydownEscape(focusedOption);
 
@@ -219,21 +198,18 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           select.value,
           "grapefruit",
-          "should not change the value of the select",
+          "should not change the value of the select"
         );
         assert.strictEqual(
           input.value,
           "Grapefruit",
-          "should reset the value in the input",
+          "should reset the value in the input"
         );
         assert.ok(
           selectChangeSpy.notCalled,
-          "should not have dispatched a change event",
+          "should not have dispatched a change event"
         );
-        assert.ok(
-          inputChangeSpy.called,
-          "should have dispatched a change event",
-        );
+        assert.ok(inputChangeSpy.called, "should have dispatched a change event");
       });
     });
   });

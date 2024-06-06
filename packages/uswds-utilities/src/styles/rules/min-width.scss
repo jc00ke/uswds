@@ -9,9 +9,8 @@ output:
   min-width: [value];
 ----------------------------------------
 example:
-  .minw-15 {
-    min-width: 7.5rem;
-  }
+  .minw-desktop {
+    min-width: 960px; }
 ----------------------------------------
 */
 
@@ -25,7 +24,7 @@ $u-min-width: (
     modifiers: null,
     values:
       map-collect(get-palettes($min-width-palettes), $min-width-manual-values),
-    settings: $min-width-settings-complete,
+    settings: $min-width-settings,
     property: "min-width",
     type: "utility",
   ),

@@ -3,15 +3,14 @@
 text-decoration-color
 ----------------------------------------
 usage:
-  .underline-[key]
+  .text-decoration-color-[key]
 ----------------------------------------
 output:
-  text-decoration-color: [value];
+  text-decoration-color: [value]
 ----------------------------------------
 example:
-  .underline-red {
-    text-decoration-color: #e52207;
-  }
+  .text-decoration-color-black {
+    text-decoration-color: #000; }
 ----------------------------------------
 */
 
@@ -29,7 +28,7 @@ $u-text-decoration-color: (
         get-palettes($global-color-palettes),
         $text-decoration-color-manual-values
       ),
-    settings: $text-decoration-color-settings-complete,
+    settings: $text-decoration-color-settings,
     property: "text-decoration-color",
     type: "utility",
   ),

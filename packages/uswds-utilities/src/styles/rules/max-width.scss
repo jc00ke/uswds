@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .maxw-desktop {
-    max-width: 64rem;
-  }
+    max-width: 960px; }
 ----------------------------------------
 */
 
@@ -25,7 +24,7 @@ $u-max-width: (
     modifiers: null,
     values:
       map-collect(get-palettes($max-width-palettes), $max-width-manual-values),
-    settings: $max-width-settings-complete,
+    settings: $max-width-settings,
     property: "max-width",
     type: "utility",
   ),

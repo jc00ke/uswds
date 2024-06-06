@@ -10,8 +10,7 @@ output:
 ----------------------------------------
 example:
   .minh-card {
-    min-height: 10rem;
-  }
+    min-height: 200px; }
 ----------------------------------------
 */
 
@@ -25,7 +24,7 @@ $u-min-height: (
     modifiers: null,
     values:
       map-collect(get-palettes($min-height-palettes), $min-height-manual-values),
-    settings: $min-height-settings-complete,
+    settings: $min-height-settings,
     property: "min-height",
     type: "utility",
   ),

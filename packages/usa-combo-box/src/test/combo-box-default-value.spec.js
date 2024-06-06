@@ -4,18 +4,15 @@ const assert = require("assert");
 const ComboBox = require("../index");
 
 const TEMPLATE = fs.readFileSync(
-  path.join(__dirname, "/combo-box-default-value.template.html"),
+  path.join(__dirname, "/combo-box-default-value.template.html")
 );
 
 const tests = [
   { name: "document.body", selector: () => document.body },
-  {
-    name: "combo box",
-    selector: () => document.querySelector(".usa-combo-box"),
-  },
+  { name: "combo box", selector: () => document.querySelector(".usa-combo-box") }
 ];
 
-tests.forEach(({ name, selector: containerSelector }) => {
+tests.forEach(({name, selector: containerSelector}) => {
   describe(`Combo box initialized at ${name}`, () => {
     describe("combo box component with default value attribute", () => {
       const { body } = document;
@@ -42,12 +39,12 @@ tests.forEach(({ name, selector: containerSelector }) => {
         assert.strictEqual(
           input.value,
           "Blackberry",
-          "updates the default value of the input",
+          "updates the default value of the input"
         );
         assert.strictEqual(
           select.value,
           "blackberry",
-          "updates the default value of the select",
+          "updates the default value of the select"
         );
       });
     });

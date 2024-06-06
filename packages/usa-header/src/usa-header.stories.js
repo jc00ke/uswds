@@ -29,7 +29,8 @@ Default.args = DefaultContent;
 export const Megamenu = Template.bind({});
 Megamenu.args = {
   ...MegamenuContent,
-};
+  megamenu: true,
+}
 
 export const Extended = ExtendedTemplate.bind({});
 Extended.args = {
@@ -43,6 +44,7 @@ Extended.args = {
 export const ExtendedMegamenu = ExtendedTemplate.bind({});
 ExtendedMegamenu.args = {
   ...ExtendedMegamenuContent,
+  megamenu: true,
   navSecondaryContent: {
     ...navSecondaryContent,
     search: true,

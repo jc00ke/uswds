@@ -2,7 +2,6 @@
 @use "sass:meta";
 @use "uswds-core" as *;
 
-// Calculate the width of the outer megamenu pseudo elements
 @mixin outer-megamenu($header-max-width: $theme-header-max-width, $type) {
   @include u-pin("y");
   background-color: color("primary-darker");
@@ -10,22 +9,15 @@
   display: block;
   position: absolute;
 
-  // Set variable for submenu max width
+  // retrieve the unit value of $theme-header-max-width, depending on type of value added
   $mw: smart-quote($header-max-width);
   @if meta.type-of($header-max-width) == "string" {
-    // Retrieve the unit equivalent for submenu max width
     $mw: units($header-max-width);
   }
 
-  // Create the vw equivalent for max-width:none
-  @if $header-max-width == "none" {
-    $mw: 100vw;
-  }
-
-  // Calculate pseudo element width
-  // Subtract half the submenu width from half the viewport width
+  // subtract half the value of the viewport width from half the value of the submenu width
+  // standard needs the additional $theme-site-margins-width to accommodate different paddings/structure on #basic-mega-nav-section-two
   @if $type == "standard" {
-    // Add theme margin width to match padding in .usa-nav-container
     width: calc(50vw - $mw / 2 + units($theme-site-margins-width));
   } @else if $type == "extended" {
     width: calc(50vw - $mw / 2);
@@ -42,18 +34,6 @@
     @include at-media($theme-header-min-width) {
       // needs this round() to avoid a compile bug
       @include u-flex(math.round(math.div(12, $theme-megamenu-columns)));
-
-      .usa-nav__submenu-item a {
-        @include u-padding-x(1);
-      }
-
-      // Remove padding from first and last columns on desktop view.
-      &:first-child .usa-nav__submenu-item a {
-        padding-left: 0;
-      }
-      &:last-child .usa-nav__submenu-item a {
-        padding-right: 0;
-      }
     }
   }
 }
